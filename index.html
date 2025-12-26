@@ -1933,7 +1933,7 @@ async function saveBuild() {
         });
         const result = await response.json();
         const shortId = result.metadata.id; 
-        const url = `https://deepwoken-modded-builder-tester.pages.dev/?id=${shortId}`;
+        const url = `https://deepwoken-modded-builder-tester.worker.dev/?id=${shortId}`;
 navigator.clipboard.writeText(url).then(() => {
     alert("Link Copied! (it can embed btw)");
     btn.innerText = "SHARE BUILD LINK";
