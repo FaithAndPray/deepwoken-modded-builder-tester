@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepwoken modded Builder by taxes/faithandpray</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://media.discordapp.net/attachments/1452799462723420192/1453046676838289488/image.png?ex=694c06ac&is=694ab52c&hm=420acaa5286482c05ff627610dac32e22f6ec69c24ed05a5d825ccfdeb8d8763&=&format=webp&quality=lossless&width=246&height=253">
+    <style>
+        :root {
+    --bg: radial-gradient(#18221a, #04100d);
+    --sidebar-bg: #0a0a0b;
+    --card-bg: #0c120f;
+    --parchment: #d8d7ca;
+    --parchment-text: #1a1a1a;
+    --gold: #c2a35d;
+    --accent-filter: sepia(1) saturate(15) hue-rotate(-5deg); /* Gold */
+    --border-path: url('https://media.discordapp.net/attachments/1375448864928038978/1453927785411383491/border.png?ex=694f3b44&is=694de9c4&hm=315ecb88cd15b1db9fe0cdf2145f7323673b64b0bbe149051d8a8a59b1989823&=&format=webp&quality=lossless&width=40&height=40'); 
+    --border-slice: 10;
+}
+body.theme-flame {
+    --bg: radial-gradient(#2b1a10, #0f0804);
+    --sidebar-bg: #140d08;
+    --card-bg: #1a120c;
+    --gold: #ffaa44;
+    --accent-filter: saturate(15) hue-rotate(-15deg) brightness(1.1);
+}
+
+body.theme-frost {
+    --bg: radial-gradient(#101b2b, #040910);
+    --sidebar-bg: #080c14;
+    --card-bg: #0c121a;
+    --gold: #55aaff;
+    --accent-filter: saturate(15) hue-rotate(180deg) brightness(1.2); /* Cyan/Blue */
+}
+body.theme-gale {
+    --bg: radial-gradient(#102b18, #041006);
+    --sidebar-bg: #08140c;
+    --card-bg: #0c1a10;
+    --gold: #33cc66;
+    --accent-filter: saturate(10) hue-rotate(80deg);
+}
+
+/* Thundercall (Dark Yellow) */
+body.theme-thunder {
+    --bg: radial-gradient(#2b2810, #100f04);
+    --sidebar-bg: #141308;
+    --card-bg: #1a190c;
+    --gold: #ccaa00;
+    --accent-filter: saturate(20) hue-rotate(10deg);
+}
+
+body.theme-shadow {
+    --bg: radial-gradient(#1a102b, #0a0410);
+    --sidebar-bg: #0d0814;
+    --card-bg: #120c1a;
+    --gold: #aa55ff;
+    --accent-filter: saturate(10) hue-rotate(240deg); /* Purple */
+}
+/* Ironsing (Gray/Metal) */
+body.theme-iron {
+    --bg: radial-gradient(#252525, #0a0a0a);
+    --sidebar-bg: #121212;
+    --card-bg: #1a1a1a;
+    --gold: #9999aa;
+    --accent-filter: grayscale(1) brightness(1.5);
+}
+
+/* Bloodrend (Brick Red) */
+body.theme-blood {
+    --bg: radial-gradient(#2b0a0a, #100404);
+    --sidebar-bg: #140808;
+    --card-bg: #1a0c0c;
+    --gold: #b22222;
+    --accent-filter: saturate(15) hue-rotate(-45deg) brightness(0.8);
+}
+
+/* Earthbend (Brown) */
+body.theme-earth {
+    --bg: radial-gradient(#2b1d10, #100a04);
+    --sidebar-bg: #141008;
+    --card-bg: #1a140c;
+    --gold: #8b5a2b;
+    --accent-filter: saturate(5) hue-rotate(-20deg) brightness(0.7);
+}
+
+
+        * { box-sizing: border-box; }
+        body { 
+            background: var(--bg); color: #fff; font-family: 'Lora', serif; 
+            margin: 0; display: flex; height: 100vh; overflow: hidden; 
+        }
+
+        
+        /* Sidebar Left - Centered Content */
+#sidebar-left { 
+    width: 320px; 
+    min-width: 320px; 
+    background: var(--sidebar-bg); 
+    border-right: 2px solid #2f2f35; 
+    padding: 20px; 
+    overflow-y: auto;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    height: 100vh;
+}
+
+/* Traits Layout - 2x2 Grid */
+.traits-medallion-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
+}
+
+.trait-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.medallion {
+    width: 70px;
+    height: 70px;
+    background: url('https://media.discordapp.net/attachments/1375448864928038978/1453153519623475384/image-removebg-preview.png?ex=694f0d2d&is=694dbbad&hm=9824d1442e89f2983df6fa6f84d1b77f10dccb9582fd67988e445ecf49bdad78&=&format=webp&quality=lossless&width=625&height=625') no-repeat center;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+    position: relative;
+}
+
+
+.medallion input {
+    background: transparent !important;
+    border: none !important;
+    color: #fff !important;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.8rem; 
+    font-weight: bold;
+    font-family: 'Lora', serif;
+    outline: none;
+    cursor: pointer;
+    text-shadow: 2px 2px 0px #000, -1px -1px 0px #000; 
+    z-index: 2;
+}
+
+/* Hide number arrows */
+.medallion input::-webkit-outer-spin-button,
+.medallion input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.medallion input[type=number] { -moz-appearance: textfield; }
+
+.trait-label {
+    font-size: 1rem;
+    color: #fff;
+    margin-top: 2px;
+    font-family: 'Lora', serif;
+    text-shadow: 1px 1px 2px #000;
+}
+
+#trait-sum-display {
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Oath Selector Style */
+#oath-select {
+    width: 100%;
+    background: #000;
+    color: var(--gold);
+    border: 1px solid #444;
+    padding: 10px;
+    font-family: 'Lora';
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+        
+        /* Sidebar Right - Parchment */
+        #sidebar-right {
+            width: 340px; min-width: 340px; background: var(--parchment);
+            color: var(--parchment-text); margin: 15px; display: flex; flex-direction: column;
+            border: 12px solid transparent; 
+            border-image: var(--border-path) var(--border-slice) round;
+            image-rendering: pixelated; overflow: hidden;
+        }
+
+        #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
+        #item-container { flex: 1; overflow-y: auto; padding-right: 10px; }
+
+        /* Investment Header */
+        .investment-header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .investment-header h2 { margin: 0; font-size: 1.8rem; }
+        .pts-display { font-size: 2.5rem; font-weight: bold; margin: 5px 0; display: block; }
+        #splash-text { color: var(--gold); font-size: 0.8rem; font-style: italic; min-height: 1.2rem; }
+
+        /* Tabs Style */
+        .tab-container { display: flex; gap: 15px; margin-bottom: 25px; }
+        .tab-btn { 
+            background: #000; color: #fff; font-family: 'Lora', serif; font-weight: 700;
+            padding: 10px 20px; cursor: pointer; text-transform: uppercase;
+            border: 10px solid transparent; border-image: var(--border-path) 10 round;
+            background-clip: padding-box; image-rendering: pixelated; transition: 0.1s;
+        }
+       .tab-btn.active { filter: var(--accent-filter); }
+
+        /* Search Bar */
+        .search-bar-container { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #333; }
+        #search-input { width: 100%; padding: 10px; background:#000; color:#fff; border:1px solid #444; font-family: 'Lora'; margin-bottom: 10px; }
+
+        /* Cards */
+        .category-title {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.category-title::after {
+    content: '▼';
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.category-block { 
+    margin-bottom: 20px; 
+}
+.category-title { 
+    font-size: 1rem; 
+    margin-bottom: 10px; 
+    padding: 10px 15px; 
+    color: #fff; 
+    cursor: pointer; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    /* Deepwoken Border for Titles */
+    border: 8px solid transparent;
+    border-image: var(--border-path) 10 round;
+    background: #050505;
+    background-clip: padding-box;
+    image-rendering: pixelated;
+}
+
+.category-title:hover {
+    filter: brightness(1.3);
+}
+
+.category-title::after {
+    content: '▼';
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+}
+.category-block.collapsed .grid { display: none; }
+.category-block.collapsed .category-title::after { transform: rotate(-90deg); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .card {
+    background: var(--card-bg); 
+    padding: 15px; 
+    cursor: pointer;
+    /* Fixed Border Logic */
+    border: 10px solid transparent;
+    border-image-source: var(--border-path);
+    border-image-slice: 10;
+    border-image-repeat: round;
+    background-clip: padding-box;
+    image-rendering: pixelated;
+    
+    /* Animation transition */
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s, background 0.2s;
+}
+
+/* Re-adding the Hover Animation */
+.card:hover:not(.locked) {
+    transform: translateY(-5px); /* Lifts the card up */
+    filter: brightness(1.2);      /* Makes the card look "lit up" */
+    background: #121a16;          /* Slight background shift */
+    z-index: 10;
+}
+
+.card.selected {
+    /* Stronger gold filter for the selected state */
+    filter: sepia(1) saturate(12) hue-rotate(5deg) brightness(1.1);
+    background: rgba(194, 163, 93, 0.1);
+    transform: scale(1.02); /* Makes it slightly bigger to show it is selected */
+}
+
+/* Ensure locked cards don't animate */
+.card.locked:hover {
+    transform: none;
+}
+        .card.selected { filter: var(--accent-filter) brightness(1.1); }
+        .card.locked {
+    opacity: 0.6; 
+    filter: grayscale(0.7) contrast(0.8);
+    cursor: not-allowed;
+    border-image-source: var(--border-path); /* Keeps the border visible */
+}
+        .card h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; }
+        .card p { margin: 0; font-size: 0.85rem; color: #bbb; }
+        .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0; }
+        .req-text { color: var(--gold); font-size: 0.85rem; font-weight: 700; }
+
+        /* Stat Rows */
+        .stat-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; }
+        input[type="number"] { background: #000; border: 1px solid #444; color: #fff; padding: 5px; width: 65px; text-align: center; font-family: 'Lora'; font-size: 1rem; }
+
+        /* Calculator wrapper */
+        .calc-wrapper { background: var(--parchment); color: var(--parchment-text); padding: 25px; border: 10px solid transparent; border-image: var(--border-path) 10 round; max-width: 600px; margin: 0 auto; }
+        .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dotted rgba(0,0,0,0.2); font-weight: bold; }
+        .calc-row span { font-weight: normal; color: #666; font-style: italic; }
+
+        /* Buttons */
+        .action-btn { background: #1a1a1c; border: 1px solid #444; color: #fff; padding: 12px; cursor: pointer; width: 100%; margin-top: 8px; font-family: 'Lora'; font-weight: bold; }
+
+        /* Mobile */
+        #mobile-nav { display: none; padding: 10px; background: #000; border-bottom: 1px solid #333; justify-content: space-between; }
+        .overlay { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.7); 
+    z-index: 900; /* Ensure this is below the sidebars (1000+) but above the main area */
+}
+
+/* Only show overlay when a sidebar is open on mobile */
+body.sidebar-open-left .overlay, 
+body.sidebar-open-right .overlay { 
+    display: block; 
+}
+
+        @media (max-width: 1024px) {
+    body {
+        flex-direction: column;
+        overflow-y: auto; /* Allow body scrolling */
+        height: auto;
+    }
+
+    /* Fix: Give sidebars a solid background so they aren't see-through */
+    #sidebar-left, #sidebar-right {
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 280px;
+        z-index: 2000; /* Put them above everything */
+        display: flex; 
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+    }
+
+    #sidebar-left {
+        left: 0;
+        transform: translateX(-100%);
+        background: #0a0a0b; /* Solid black sidebar */
+    }
+
+    #sidebar-right {
+        right: 0;
+        transform: translateX(100%);
+        margin: 0;
+        background: var(--parchment); /* Solid parchment background */
+    }
+
+    /* Correct open logic */
+    body.sidebar-open-left #sidebar-left { transform: translateX(0); }
+    body.sidebar-open-right #sidebar-right { transform: translateX(0); }
+
+    /* Main area layout fix */
+    #main-area {
+        padding: 10px;
+        overflow: visible;
+        width: 100%;
+    }
+
+    /* Prevent overlap: Tabs shouldn't be huge on mobile */
+    .tab-container {
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .tab-btn {
+        font-size: 0.75rem;
+        padding: 8px 12px;
+        border-width: 6px; /* Slightly thinner border for mobile */
+    }
+
+    /* Nav bar stays at the top */
+    #mobile-nav {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 1500;
+        background: #000;
+    }
+}
+
+        .toggle-gif-btn { background: transparent; border: none; color: #55aaff; padding: 0; font-size: 0.75rem; cursor: pointer; text-decoration: underline; margin-top: 8px; }
+        .gif-container { margin-top: 10px; display: none; width: 100%; border: 1px solid #333; }
+        .gif-container img { width: 100%; display: block; }
+        body.sidebar-open-left #sidebar-left { transform: translateX(0); }
+    body.sidebar-open-right #sidebar-right { transform: translateX(0); }
+    
+    /* Show Overlay when menu is open */
+    body.sidebar-open-left .overlay, body.sidebar-open-right .overlay { display: block; }
+
+    /* Shrink search bar for mobile */
+    .search-bar-container { padding: 10px; margin-bottom: 10px; }
+
+.weapon-card {
+    background: rgba(255, 255, 255, 0.15) !important; /* Semi-transparent light overlay */
+    border: 10px solid transparent;
+    border-image: var(--border-path) 10 round;
+    color: #1a1a1a !important; /* Dark text for parchment */
+    padding: 15px;
+    image-rendering: pixelated;
+    transition: transform 0.2s;
+}
+
+.weapon-card h3 { color: #000 !important; margin-top: 0; }
+.weapon-card .dmg-value { color: #8b0000 !important; font-weight: bold; font-size: 1.2rem; }
+.weapon-card .potential-text { color: #555 !important; font-style: italic; font-size: 0.8rem; }
+
+/* Selection state for weapons */
+.weapon-card.selected {
+    background: rgba(194, 163, 93, 0.4) !important;
+    outline: 2px solid var(--gold);
+}
+
+.weapon-card.locked {
+    opacity: 0.4;
+    filter: grayscale(1);
+}
+/* Highlight for the highest damage weapon */
+.weapon-card.best-match {
+    border-image-source: url('https://media.discordapp.net/attachments/1372657049485185125/1453153519623475384/image-removebg-preview.png?width=40&height=40') !important;
+    background: rgba(144, 238, 144, 0.2) !important; /* Slight green tint */
+    box-shadow: 0 0 15px rgba(194, 163, 93, 0.5);
+}
+
+.best-tag {
+    background: #c2a35d;
+    color: #000;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+ 
+    </style>
+</head>
+<body>
+
+<div class="overlay" onclick="closeSidebars()"></div>
+
+<div id="mobile-nav">
+    <button onclick="toggleSidebar('left')" style="background:none; border:1px solid #fff; color:#fff; padding:5px 15px;">Stats</button>
+    <button onclick="toggleSidebar('right')" style="background:none; border:1px solid #fff; color:#fff; padding:5px 15px;">Build</button>
+</div>
+
+<div id="sidebar-left">
+   <div style="width: 100%; margin-bottom: 20px;">
+    <label style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;">Appearance</label>
+    <select id="theme-select" onchange="changeTheme(this.value)" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; font-family: 'Lora';">
+        <option value="default">Classic</option>
+        <option value="theme-flame">Flame</option>
+        <option value="theme-frost">Frost</option>
+        <option value="theme-gale">Gale</option>
+        <option value="theme-thunder">Thunder</option>
+        <option value="theme-shadow">Shadow</option>
+        <option value="theme-iron">Iron</option>
+        <option value="theme-blood">Blood</option>
+        <option value="theme-earth">Earth</option>
+    </select>
+</div>
+
+<!-- Traits Section -->
+<div class="traits-medallion-container">
+    <!-- Top Row -->
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Songchant" value="0" oninput="setTrait('Songchant', this.value)"></div>
+        <div class="trait-label">Songchant</div>
+    </div>
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Erudition" value="0" oninput="setTrait('Erudition', this.value)"></div>
+        <div class="trait-label">Erudition</div>
+    </div>
+    
+    <!-- Bottom Row -->
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Vitality" value="0" oninput="setTrait('Vitality', this.value)"></div>
+        <div class="trait-label">Vitality</div>
+    </div>
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Proficiency" value="0" oninput="setTrait('Proficiency', this.value)"></div>
+        <div class="trait-label">Proficiency</div>
+    </div>
+</div>
+<div id="trait-sum-display">Points: <span id="trait-sum">0</span> / 12</div>
+
+<div class="investment-header">
+    <h2>Investment</h2>
+    <span class="pts-display">
+        <div style="font-size: 0.9rem; margin-top: 5px; color: var(--gold);">
+            Talents: <span id="talent-count">0</span> / 80
+        </div>
+        <span id="used-pts">0</span> / <span id="max-pts">410</span>
+    </span>
+    <div id="splash-text"></div>
+</div>
+
+<select id="oath-select" onchange="setOath(this.value)">
+    <option value="">SELECT OATH</option>
+    <option value="Saintsworn">Saintsworn</option>
+    <option value="Blightsurger">Blightsurger</option>
+    <option value="Linkstrider">Linkstrider</option>
+    <option value="Fadetrimmer">Fadetrimmer</option>
+    <option value="Dawnwalker">Dawnwalker</option>
+    <option value="Contractor">Contractor</option>
+    <option value="Soulbreaker">Soulbreaker</option>
+    <option value="Silentheart">Silentheart</option>
+    <option value="Warmaster">Warmaster</option>
+    <option value="Starkindred">Starkindred</option>
+    <option value="BladeHarper">BladeHarper</option>
+    <option value="Tetherlance">Tetherlance</option>
+    <option value="Blindseer">Blindseer</option>
+    <option value="Chainwarden">Chainwarden</option>
+    <option value="Ironfist">Ironfist</option>
+    <option value="Arcwarder">Arcwarder</option>
+    <option value="Jetstriker">Jetstriker</option>
+    <option value="Aetherkeeper">Aetherkeeper</option>
+    <option value="Kingslayer">Kingslayer</option>
+    <option value="Timeripper">Timeripper</option>
+    <option value="Fearfighter">Fearfighter</option>
+    <option value="oathless">oathless</option>
+</select>
+
+<hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
+<div id="core-inputs" style="width: 100%;"></div>
+<hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
+<div id="att-inputs" style="width: 100%;"></div>
+
+<div style="width: 100%; margin-top: auto;">
+    <button class="action-btn" onclick="saveBuild()" style="background: var(--gold); color: #000; border:none;">SHARE BUILD LINK</button>
+    <button class="action-btn" style="color:#ff4444;" onclick="clearBuild()">CLEAR BUILD</button>
+</div>
+</div>
+
+<div id="main-area">
+    <div class="tab-container">
+        <div class="tab-btn active" id="tab-talents" onclick="switchTab('talents')">Talents</div>
+        <div class="tab-btn" id="tab-mantras" onclick="switchTab('mantras')">Mantras</div>
+        <div class="tab-btn" id="tab-calc" onclick="switchTab('calc')">Dmg/Pen</div>
+        <div class="tab-btn" id="tab-weapons" onclick="switchTab('weapons')">Weapons</div>
+        <div class="tab-btn" id="tab-guide" onclick="switchTab('guide')">Guide</div>
+    </div>
+
+    <div id="search-bar" class="search-bar-container">
+        <input type="text" id="search-input" placeholder="Search..." oninput="renderItems()">
+        <label style="font-size: 0.85rem; color: #ccc; cursor: pointer;">
+            <input type="checkbox" id="filter-reqs" onchange="renderItems()"> Show things that fit Requirements
+        </label>
+    </div>
+
+    <div id="item-container"></div>
+</div>
+
+<div id="sidebar-right">
+    <div style="padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #000; font-size: 1.1rem; text-transform: uppercase;">Build Overview</div>
+    <div id="selection-list" style="overflow-y: auto; flex: 1;"></div>
+</div>
+
+<script>
+// --- 1. THE COMPLETE GAME DATA ---
+
+const gameData = {
+    attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
+    attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
+    talents: {
+        "No Stat Reqs": [{ "name": "Return to the Dark Ages", "desc": "10% less Outgoing and Incoming Mantra DMG. [5 hp]", "req": {} },{ "name": "Lightweight", "desc": "Move faster when armor is 0%. [+1 Posture]", "req": {} },{ "name": "The Sounds from Below", "desc": "[+150hp]", "req": {} },{ "name": "Armor Conserver", "desc": "15% less armor drain on hit.", "req": {} },{ "name": "Murmur: Ardour", "desc": "Deal 15% more posture DMG and take 15% less when pressing H.", "req": {} }],
+        "Strength": [{ "name": "Duelist’s Dance", "desc": "25% more posture from parrying. [+2 Posture]", "req": { "Strength": 20 } },{ "name": "Harsh Response", "desc": "Enemies receive less posture when parrying you.", "req": { "Strength": 25 } },{ "name": "Bulldozer", "desc": "Enemies you flourish into a wall have a chance of breaking the wall and are guard broken on impact.", "req": { "Strength": 25 } },{ "name": "Lose Your Mind", "desc": "Deal more DMG scaling with insanity up to 10% max. [+5 hp]", "req": { "Strength": 30 } },{ "name": "Unwavering Resolve", "desc": "Getting parried punishes your posture 33% less. [+2 Posture]", "req": { "Strength": 40 } },{ "name": "Shield Breaker", "desc": "Blunt Damage now fully ignores the posture from Shields. [+1 Posture]", "req": { "Strength": 60 } },{ "name": "Piercing Blow", "desc": "Guardbreaks Ignore Armor Resistance.", "req": { "Strength": 80 } },{ "name": "Berserk", "desc": "Succumb to the burning rage within, nullifying your own armor in exchange for nullifying the armor of your foes on your Basic Attacks. Grants your Criticals +10% PEN while active.", "req": { "Strength": 80 } },{ "name": "Million Ton Piercer", "desc": "Gain 5% extra PEN and remove the cap on your PEN. Go beyond your limits.", "req": { "Strength": 90 } },{ "name": "Collapsed Lung", "desc": "Block breaking an opponent closes off their ability to Vent for 8s, duration scales with Strength.", "req": { "Strength": 100 } },{ "name": "Dreambreaker", "desc": "On Flourish, Disables Tempo Drain and gives Tempo gain for 10s, Decrease target tempo gain for 7.5s. (Locks Collapsed Lung)", "req": { "Strength": 100 } }],
+        "Precision": [{ "name": "Deflecting Handyman", "desc": "Posture Removal cooldown on parry is decreased by 0.25s. [+1 Posture]", "req": { "Precision": 20 } },{ "name": "Dead Eye", "desc": "Opponents who dodge will take 10% PEN on next attack. (8s CD)", "req": { "Precision": 40 } },{ "name": "Deadly Blow", "desc": "After Dodge, +25% Posture DMG for 3s. (10s CD)", "req": { "Precision": 50 } },{ "name": "Successive Strikes", "desc": "M1 Strings and Criticals build up stacks of increased DMG that last 5s, Dead Eye will not cancel on next hit.", "req": { "Precision": 60 } },{ "name": "Decisive Battle", "desc": "Cancelling an opponents block from behind will increase the damage by 10%", "req": { "Precision": 60 } },{ "name": "Close Quarters", "desc": "The first parry in an aerial state won’t knock you back. (20s CD) [+1 Posture]", "req": { "Precision": 75 } },{ "name": "Fatality", "desc": "Guardbreaking an Opponents Stuns them for longer. [+1 Posture]", "req": { "Precision": 80 } },{ "name": "Pinpoint Accuracy", "desc": "Bullets are now faster.", "req": { "Precision": 80 } },{ "name": "Hidden Blade", "desc": "Spine Cutter now applies anti-heal", "req": { "Precision": 80 } },{ "name": "Upcoming Opportunity", "desc": "Uncap PEN + gain 30% PEN for 3s Upon Parry or Dodge. (5s CD)", "req": { "Precision": 90 } }],
+        "Fortitude": [{ "name": "Battle Tendency", "desc": "20% faster posture regen.", "req": { "Fortitude": 15 } },{ "name": "Braced Collapse", "desc": "After being block broken, the next attack to hit you deals reduced damage.", "req": { "Fortitude": 25 } },{ "name": "Exoskeleton", "desc": "Natural Armor resists 10% Physical Damage when active. Replenishes when resting.", "req": { "Fortitude": 40 } },{ "name": "To the Finish", "desc": "You take 10% less damage when below 30% health.", "req": { "Fortitude": 50 } },{ "name": "Turtle Shell", "desc": "If your shield is on your back, take reduced backstab damage and negate Spine Cutter.", "req": { "Fortitude": 50 } },{ "name": "Dancing Guard", "desc": "Parrying an opponent and then parrying another enemy in quick succession applies slow for 7s.", "req": { "Fortitude": 55 } },{ "name": "Knuckle Guard", "desc": "Hitting Dazed enemies grants you 10% posture resistance for 15s.", "req": { "Fortitude": 55, "Strength": 25 } },{ "name": "Down to your Level", "desc": "While you have a speed debuff, your Basic Attacks slow your enemies for 5s.", "req": { "Fortitude": 60 } },{ "name": "Defensive Reprisal", "desc": "Being flourished grants you 10% posture resistance for 20s.", "req": { "Fortitude": 65 } },{ "name": "Reinforced Armor", "desc": "Incoming PEN is reduced by 30%.", "req": { "Fortitude": 90 } },{ "name": "Armorclad", "desc": "Flourishing, or Getting Guardbroken gives you slight dmg resistance for 10s.", "req": { "Fortitude": 100 } }],
+        "Agility": [{ "name": "Lowstride", "desc": "Crouching stealth and roll distance increased. Smaller speed penalty. Silent weapon draw.", "req": { "Agility": 20 } },{ "name": "Kick Off", "desc": "No damage from short falls. Higher wall jumps. Speed boost after wall jumping.", "req": { "Agility": 20 } },{ "name": "Safety Dance", "desc": "Your base dodge frames are increased by 0.05s.", "req": { "Agility": 20 } },{ "name": "Observation", "desc": "Dodge frames are larger if you cancel your roll immediately.", "req": { "Agility": 20 } },{ "name": "Risky Moves", "desc": "When you successfully dodge, you'll automatically dodge the next attack.", "req": { "Agility": 25 } },{ "name": "Speed Emission", "desc": "Gain a slight speed boost after landing a vent.", "req": { "Agility": 25 } },{ "name": "Speed Demon", "desc": "Your attacks now inflict a reduced-strength bleed while you have a speed boost. 1s cooldown.", "req": { "Agility": 25 } },{ "name": "Blade Dancer", "desc": "Landing a Basic Attack removes your roll cooldown.", "req": { "Agility": 25 } },{ "name": "Deep Wound", "desc": "Assassinating a target applies anti-heal for 20s and gives you a speed boost for 6s.", "req": { "Agility": 35 } },{ "name": "Ghost", "desc": "Dodging a move will briefly make you invisible, ending early if you attack.", "req": { "Agility": 40 } },{ "name": "Lights Out", "desc": "Assassinations give 30% PEN and blind the target for 5s.", "req": { "Agility": 55 } },{ "name": "Tap Dancer", "desc": "Rolling immediately after a roll-cancel no longer puts your roll on a longer cooldown.", "req": { "Agility": 60 } },{ "name": "Unseen Threat", "desc": "Assassinate those with weapons out if not in combat. Targets are slowed and cannot jump for 3s.", "req": { "Agility": 60 } },{ "name": "Cheap Shot", "desc": "Attacks gain 10% PEN multiplicatively with an active speed boost.", "req": { "Agility": 65 } },{ "name": "Down Comes the Claw", "desc": "Landing Critical with speed boost prevents opponent from dodging twice in a row for 5s.", "req": { "Agility": 75 } },{ "name": "Pursuit", "desc": "If you land Revenge, Reset the Cooldown (25s CD)", "req": { "Agility": 90 } },{ "name": "Dustlunge", "desc": "Assassinate from farther via shade stepping. Chain assassinate nearby enemies.", "req": { "Agility": 90 } },{ "name": "Maiming Claws", "desc": "Down Comes the Claw now disables opponent's posture regeneration for 6s on proc.", "req": { "Agility": 100 } }],
+        "Intelligence": [{ "name": "Ether Absorption", "desc": "Receive Ether back when inflicted with damage from Mantras.", "req": { "Intelligence": 15 } },{ "name": "Perfect Flash", "desc": "Over 95% health causes mantras to do +25% damage.", "req": { "Intelligence": 25 } },{ "name": "Eureka", "desc": "Gain Inspiration stacks on mantra land/parry. 3 stacks grant +10% Mantra Damage.", "req": { "Intelligence": 30 } },{ "name": "True Ether Bullets", "desc": "Ether Bullets apply elemental damage of highest investment.", "req": { "Intelligence": 30, "Weapon": 20 } },{ "name": "Overflowing Dam", "desc": "Full Ether for 2s grants an aura for 10% more damage.", "req": { "Intelligence": 40 } },{ "name": "Foolish Outburst", "desc": "Blocking or parrying a vent absorbs the Tempo cost of the vent.", "req": { "Intelligence": 50 } },{ "name": "Keen Recovery", "desc": "Basic attack after feinting a mantra restores the feinted mantra's ether cost.", "req": { "Intelligence": 55 } },{ "name": "Prime Ether Bullets", "desc": "Bullets take one less hit to proc elements and have intelligence scaling.", "req": { "Intelligence": 60, "Light": 90 } },{ "name": "Twelve Steps Ahead", "desc": "Landing Prediction halves cooldown; whiffing doubles it.", "req": { "Intelligence": 80 } },{ "name": "Ether Overdrive", "desc": "Gain 5% extra PEN and remove the cap on your PEN.", "req": { "Intelligence": 90 } },{ "name": "Absolute Pitch", "desc": "You can cast ritual mantra’s instantly.", "req": { "Intelligence": 100 } }],
+        "Willpower": [{ "name": "Disbelief", "desc": "Resistant to Illusion magic, charms, and tricks.", "req": { "Willpower": 25 } },{ "name": "Magical Resolve", "desc": "Being hit increases ether regen.", "req": { "Willpower": 40 } },{ "name": "Ardour Scream", "desc": "Amplify shout to make victims take 25% more DMG and Posture for 10s.", "req": { "Willpower": 40 } },{ "name": "Underdog", "desc": "Deal more damage to those with higher HP, scales with WILL.", "req": { "Willpower": 40 } },{ "name": "Heretic's Sutra", "desc": "A chant that steers you into the state of Insanity for 20 seconds.", "req": { "Willpower": 80 }},{ "name": "Piercing Will", "desc": "When sanity is below 35%, gain up to +15% PEN.", "req": { "Willpower": 80 } },{ "name": "Psychic", "desc": "Opponents with <50% sanity cannot proc Deep Gems against you briefly.", "req": { "Willpower": 80 } },{ "name": "Shared Misery", "desc": "Attacking while losing sanity causes enemies to lose sanity.", "req": { "Willpower": 90 } },{ "name": "Beleaguered But Unbowed", "desc": "Damage reduction when surrounded by 2 or more opponents.", "req": { "Willpower": 90 } },{ "name": "Sin Stacker", "desc": "All The Dead Gods' duration is based on enemy antiheal stacks.", "req": { "Willpower": 90 } },{ "name": "Indomitable Spirit", "desc": "Sanity attacks are redirected to nearby opponents.", "req": { "Willpower": 100 } }],
+        "Charisma": [{ "name": "Charismatic Cast", "desc": "Landing mantras charms enemies, reducing damage done to you.", "req": { "Charisma": 25 } },{ "name": "Tough Love", "desc": "Deal 10% more damage to charmed enemies.", "req": { "Charisma": 25 } },{ "name": "Give and Take", "desc": "Deal and receive less DMG from comrades.", "req": { "Charisma": 35 } },{ "name": "Golden Tongue", "desc": "Typing or gestures give random buffs to you and allies.", "req": { "Charisma": 40 } },{ "name": "Lasting Charisma", "desc": "Enemies charmed by mantras stay charmed longer.", "req": { "Charisma": 55 } },{ "name": "Chaotic Charm", "desc": "At low health, naturally apply charm to reduce incoming damage.", "req": { "Charisma": 55 } },{ "name": "Dazing Finisher", "desc": "Flourishing charmed enemies dazes them instead of knockback.", "req": { "Charisma": 55 } },{ "name": "Manipulator", "desc": "Deal 20% more critical damage to charmed enemies; removes charm.", "req": { "Charisma": 60 } },{ "name": "Narcissist", "desc": "Charming an already charmed opponent Overcharms you briefly.", "req": { "Charisma": 60 } },{ "name": "Unnecessary Theatrics", "desc": "Deliver a one-liner on heavy attacks that charms opponents briefly.", "req": { "Charisma": 75 } },{ "name": "Cornered Fool", "desc": "Blockbreaking a charmed opponent procs Taunt.", "req": { "Charisma": 85 } },{ "name": "Cult of Personality", "desc": "Gain +3% PEN for each person Charmed, capping at 15%.", "req": { "Charisma": 90 } },{ "name": "Off Your Game", "desc": "Slow Taunted enemies when you hit them.", "req": { "Charisma": 90 } }],
+        "Multi-Stats": [{ "name": "Parasol's Brain", "desc": "You feel as if your brain were expanding. (IT BUFFS YOUR GEM, HERE IS THE LIST OF BUFFS)  / Aegis Gem: Duration increased from 8s to 15s / Blessed Gem: Cooldown reduction increased, from divided by 2 to divided by 3 / Bloodless Gem: Damage reduced by 50%, healing increased to 50% / Insignia Gem: Decreases Insignia Cooldown from 10 to 7 seconds / Might Gem: Posture damage buff increased from +20% to +35%. Wayward Gem: Cooldown is decreased from 8s to 3s / Wind Gem: Speed boost increased from 5 to 9 / Wrath Gem: Critical damage buff increased from 20% to 30% / Fraud Gem: Damages sanity from maximum sanity divided by 15 to divided by 5 / Erosion Gem: Armor drain increased from damage divided by 2 to damage divided by 1.5 / Sealing Gem: Increases Anti-Heal duration from 10 to 15 seconds.", "req": {"Intelligence": 100 , "Willpower": 80 , "Charisma": 50} }, { "name": "Professional's Standard", "desc": "Charmed opponents take +10% pen","req": { "Precision": 50, "Charisma": 25 } },{ "name": "Sturdy Control", "desc": "Gain 2.5% pen for every M1/Crit after being hit, cap 15%.", "req": { "Precision": 50, "Fortitude": 40 } },{ "name": "Master of His Craft", "desc": "Parrying a vent grants +20% PEN for 5 seconds.", "req": { "Precision": 10, "Intelligence": 10 } },{ "name": "Concussion", "desc": "Flourishing enemies into walls dazes them longer and alters vision.", "req": { "Strength": 20, "Fortitude": 15 } },{ "name": "Matador", "desc": "Deal +20% more damage to human enemies with hyperarmor.", "req": { "Strength": 20, "Agility": 5 } },{ "name": "Lightspeed Reflexes", "desc": "Feinting gives a very brief auto-parry window.", "req": { "Agility": 20, "Intelligence": 20 } },{ "name": "Grasp on Reality", "desc": "Reduced damage from insanity; Shared Misery is less effective.", "req": { "Fortitude": 25, "Willpower": 5 } },{ "name": "Strong Stern", "desc": "The duration you are dazed from wall bangs is cut in half.", "req": { "Strength": 15, "Fortitude": 25 } },{ "name": "Endurance Runner", "desc": "Keep moving even when things look dire.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Conditioned Runner", "desc": "Regen faster while running, slower while not.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Spine Cutter", "desc": "Hit enemy in back after roll cancel for raw weapon damage follow-up.", "req": { "Strength": 20, "Agility": 25 } },{ "name": "Knight's Rally", "desc": "When using a shield, ready block more quickly after a hit.", "req": { "Fortitude": 30, "Willpower": 10 } },{ "name": "Breaking Stereotype", "desc": "Guard breaking an opponent with your critical applies knockdown.", "req": { "Precision": 50, "Strength": 50 } },{ "name": "All The Dead Gods", "desc": "Your Attacks now Apply Anti-Heal. [+5 hp]", "req": { "Intelligence": 40, "Willpower": 65 } },{ "name": "Stress Resistant", "desc": "While in Combat, Insanity only affects every 2nd time.", "req": { "Precision": 25, "Willpower": 40 } },{ "name": "Unfazed", "desc": "More resilient to insanity side effects. No shivering, less panic.", "req": { "Willpower": 50, "Fortitude": 50 } },{ "name": "Steady Nerves", "desc": "Successful dodges restore posture.", "req": { "Strength": 15, "Agility": 45 } },{ "name": "Tooth and Claw", "desc": "Precision & Strength mantras now have 20% PEN.", "req": { "Strength": 50, "Precision": 50 } },{ "name": "Behind You", "desc": "Basic attack behind enemy after mantra feint deals ether-scaling damage.", "req": { "Intelligence": 70, "Agility": 40 } },{ "name": "One of a Kind", "desc": "Crits/Flourishes extend Charm duration and ignore Disbelief.", "req": { "Charisma": 80, "Willpower": 80 } },{ "name": "Dancing With The Dead", "desc": "For every nearby enemy gain 2.5% PEN.", "req": { "Precision": 80, "Intelligence": 20 } },{ "name": "Bad Guy Coming Through", "desc": "Block-breaking an opponent applies 50% damage as Insanity.", "req": { "Strength": 100, "Willpower": 50 } },{ "name": "All Above, Gods Below", "desc": "Stun and steal any healing opponent would receive.", "req": { "Willpower": 100, "Intelligence": 100 } },{ "name": "Crisis Point", "desc": "At 30% Health, disable all anti-heals for 20s.", "req": { "Fortitude": 50, "Willpower": 100 } },{ "name": "Brick Wall", "desc": "Immune to knockdown until knocked unconscious.", "req": { "Fortitude": 100, "Willpower": 100 } },{ "name": "On Your Toes", "desc": "Gain brief auto-parry frames while equipping weapon.", "req": { "Agility": 40, "Willpower": 40 } }],
+        "Weapon Talents": [
+            { "name": "Flash Pressure", "desc": "Breeze Blitz extender.", "req": { "Light Weapon": 40 } },
+            { "name": "Knife's Journey", "desc": "Cancelling enemy mantra windup with M1 deals 15% more damage.", "req": { "Light Weapon": 30 } },
+            { "name": "Decisive Blow", "desc": "Critting after an enemy dodge procs Knife's Journey for 2x Armor dmg.", "req": { "Light Weapon": 30 } },
+            { "name": "Successive Throw", "desc": "Throw a dagger after a successful flourish.", "req": { "Light Weapon": 35 } },
+            { "name": "Switchblade", "desc": "Utilize Dagger Talents when not wielding a dagger.", "req": { "Light Weapon": 50, "Weapon": 50 } },
+            { "name": "Mayday", "desc": "Aerial flourishes knockdown for much longer.", "req": { "Precision": 80, "Weapon": 40 } },
+            { "name": "Virtuoso", "desc": "Temporarily proc talents of other weapon types in same class.", "req": { "Precision": 80, "OR_Weapon": 80 } },
+            { "name": "Prodigy of All", "desc": "Flourish/Uppercut allows procing talents from other weapon classes for 15s.", "req": { "Light Weapon": 80, "Medium Weapon": 80, "Heavy Weapon": 80 } },
+            { "name": "Critical Engine", "desc": "Ability to use Deep Gems on your critical attack.", "req": { "Intelligence": 90, "Weapon": 30 } }
+        ],
+        "Flamecharm": [{ "name": "Eruption Path: Lava Serpent", "desc": "Every time you would set people aflame, eruptions spawn at their feet instead.", "req": { "Flamecharm": 50 } },{ "name": "Molten Defense", "desc": "Upon being Block Broken, cause an eruption. (30s CD)", "req": { "Flamecharm": 75, "Path": "Eruption" } },{ "name": "Flash Point", "desc": "Landing 3 fire mantras will set your enemy aflame.", "req": { "Flamecharm": 100, "Path": "Eruption" } },{ "name": "Double Trouble", "desc": "Landing a fire attack while eruption is charging causes an explosion.", "req": { "Flamecharm": 100, "Path": "Eruption" } },{ "name": "The Floor is Lava", "desc": "Your eruptions leave burning pools of lava beneath them.", "req": { "Flamecharm": 100, "Path": "Eruption" } },{ "name": "Flaming Flourish", "desc": "Your Flourish applies burn.", "req": { "Flamecharm": 25 } },{ "name": "Pleeksty’s Faith", "desc": "When on fire, automatically put out the flames at the cost of some ether.", "req": { "Flamecharm": 25, "Willpower": 15, "Charisma": 15 } },{ "name": "Meteor Impact", "desc": "Aerial moves follow up into a devastating slam.", "req": { "Flamecharm": 25 } },{ "name": "Dancing Steps", "desc": "Dash forward whenever using a flame mantra.", "req": { "Flamecharm": 35 } },{ "name": "Cauterized Wounds", "desc": "Blood loss from all sources is lowered.", "req": { "Flamecharm": 40, "Fortitude": 5 } },{ "name": "Explosive Flourish", "desc": "Hitting opponents with a fire attack after a flourish causes an explosion. (15s CD)", "req": { "Flamecharm": 50 } },{ "name": "Flame Within", "desc": "Set yourself on fire for a 10% DMG and 10% speed increase.", "req": { "Flamecharm": 50 } },{ "name": "Immolation", "desc": "Mantras cost 70% less ether while burning. M1s gain innate blazing. Take 50% less dmg from Flame Within.", "req": { "Flamecharm": 50 } },{ "name": "Mirage Clone", "desc": "Dodging an attack successfully sets the attacker on fire.", "req": { "Flamecharm": 65 } },{ "name": "Azure Flames", "desc": "Flames burn blue, increasing DoT. Eruption variant delays eruptions but increases dmg.", "req": { "Flamecharm": 75, "Willpower": 40 } },{ "name": "Ash Ember", "desc": "The more wither your opponent has, the more damage your burn deals.", "req": { "Flamecharm": 90, "Weapon": 1 } },{ "name": "Scorching Decay", "desc": "The wither dealt from Emperor's Flame is massively increased.", "req": { "Flamecharm": 100, "Weapon": 100 } },{ "name": "The Final Act", "desc": "M1s on burning enemies cause explosions. (15s CD) (Mutual with Eruption)", "req": { "Flamecharm": 75 } },{ "name": "Emperor Flame", "desc": "Upon activating Final Act, coat yourself in flames, increasing DMG and speed for 20s. (60s CD)", "req": { "Flamecharm": 80 } }],
+        "Frostdraw": [{ "name": "Glass Path: Crystallization", "desc": "Ice mantras no longer slow; instead, they grow crystals on opponents.", "req": { "Frostdraw": 40 } },{ "name": "Crystal Shrapnel", "desc": "Crystal explosions have an AoE that applies crystals to all hit.", "req": { "Frostdraw": 60, "Path": "Glass" } },{ "name": "Reclaimed Glass", "desc": "Crystal Shrapnel grants you and allies 10% Elemental Resistance for 10s.", "req": { "Frostdraw": 65, "Path": "Glass" } },{ "name": "Frostbite", "desc": "Enemies no longer heal when under the effect of chill.", "req": { "Frostdraw": 25 } },{ "name": "Saint Jay", "desc": "Redirect 60% of an enemy's nullified healing to yourself. Increased if enemy is on ice.", "req": { "Frostdraw": 25, "Talent": "Frostbite" } },{ "name": "Cool Head", "desc": "Being set on fire while on ice puts it out and grants fire immunity for 30s. (15s CD)", "req": { "Frostdraw": 30 } },{ "name": "Cryonis", "desc": "All ice spells cast on ice cost less ether.", "req": { "Frostdraw": 40 } },{ "name": "Cold Front", "desc": "Your vent is imbued with glacial frost.", "req": { "Frostdraw": 40, "Talent": "Cryonis" } },{ "name": "Chilling Flourish", "desc": "Flourish applies chill or crystals.", "req": { "Frostdraw": 50 } },{ "name": "Fragile Freeze", "desc": "Light attacks and criticals freeze chilled opponents on guardbreak.", "req": { "Frostdraw": 55 } },{ "name": "Frozen Pin-Cushion", "desc": "Ice Daggers freeze opponents in place.", "req": { "Frostdraw": 60, "Mantra": "Ice Daggers" } },{ "name": "Orbital Ice", "desc": "Parrying on ice forms a ring that absorbs 15% physical damage.", "req": { "Frostdraw": 65 } },{ "name": "Cryostasis", "desc": "Take decreased damage for 3s after being guard broken. (25s CD)", "req": { "Frostdraw": 80 } },{ "name": "Stasis Strike", "desc": "Crystal explosions deal more damage if the opponent is bottom frozen.", "req": { "Frostdraw": 90, "Weapon": 90 } },{ "name": "Frozen Anchor", "desc": "Apply bottom freeze and chill on flourish, uppercut, or crit.", "req": { "Frostdraw": 100, "Weapon": 100 } },{ "name": "Unyielding Frost", "desc": "Chill procs through block at 80% duration.", "req": { "Frostdraw": 100 } }],
+        "Galebreathe": [{ "name": "Haunted Path: Specter", "desc": "Lose suffocation for a spectral gauge.", "req": { "Galebreathe": 50 } },{ "name": "Apparitions", "desc": "Phantoms apply winded; cannot be parried during phantom step.", "req": { "Galebreathe": 50, "Path": "Haunted" } },{ "name": "Phantom Step", "desc": "High speed running and gale dashes (Requires 10% spectral gauge).", "req": { "Galebreathe": 55, "Path": "Haunted" } },{ "name": "Vanishing Wraith", "desc": "Aerial attacks in phantom step teleport you behind the target.", "req": { "Galebreathe": 60, "Path": "Haunted" } },{ "name": "Possession", "desc": "Apparition hits grant posture dmg or chip dmg depending on phantom step.", "req": { "Galebreathe": 75, "Path": "Haunted" } },{ "name": "Suffocating Impact", "desc": "Suffocate enemies when flourishing them into walls.", "req": { "Galebreathe": 35, "Strength": 15 } },{ "name": "Wind Step", "desc": "Gain a double jump and a large slide leap. (7s CD)", "req": { "Galebreathe": 40 } },{ "name": "Haunted Gale", "desc": "Every 3 hits with perfect cast gale mantras strike the target with a wind phantom.", "req": { "Galebreathe": 40 } },{ "name": "Cyclone Blade", "desc": "Gale dashes empower your next light attack with 30% bleed DMG and 10% chip.", "req": { "Galebreathe": 55, "Agility": 30 } },{ "name": "Silencer's Blade", "desc": "Meleeing a suffocated opponent extends duration and grants speed.", "req": { "Galebreathe": 60 } },{ "name": "Air Pressure", "desc": "Dodging or hitting blocks turns your next dash into a gale dash.", "req": { "Galebreathe": 50, "Agility": 20 } },{ "name": "AWS (A World Without Song)", "desc": "Wind attacks inflict suffocation for 5s.", "req": { "Galebreathe": 75 } },{ "name": "Silencer's Song", "desc": "Silencer’s Blade now procs on mantras.", "req": { "Galebreathe": 100, "Weapon": 100 } }],
+        "Thundercall": [{ "name": "Surge Path: Unstable Capacitor", "desc": "Apply surge stacks instead of shock. Max stacks cause an overload arc.", "req": { "Thundercall": 40 } },{ "name": "Fried Circuits", "desc": "Overloading an enemy applies Sapped for 5s.", "req": { "Thundercall": 40, "Path": "Surge" } },{ "name": "Closed Circuit", "desc": "Failed overload arcs deal damage directly to the overloaded enemy.", "req": { "Thundercall": 40, "Path": "Surge" } },{ "name": "Catalytic Strike", "desc": "Posture breaking a target overloads their surge stacks.", "req": { "Thundercall": 40, "Path": "Surge" } },{ "name": "Human Battery", "desc": "Convert nearby surge stacks into ether when empty.", "req": { "Thundercall": 40, "Path": "Surge" } },{ "name": "Raiton Path: Enlightened", "desc": "Decrease ether regen and tempo gain. 3 stacks overcharge the opponent.", "req": { "Thundercall": 50 } },{ "name": "Raiton's Charge", "desc": "Overcharge now sets people on fire.", "req": { "Thundercall": 75, "Path": "Raiton" } },{ "name": "Simple Path: Electrocution", "desc": "3 thunder hits apply Electrocution, increasing blood loss and burn dmg taken.", "req": { "Thundercall": 50 } },{ "name": "Scatter", "desc": "Flourishing an enemy applies Electrocution.", "req": { "Thundercall": 50, "Path": "Electrocution" } },{ "name": "Short Circuit", "desc": "Electrocution now sets the target on fire.", "req": { "Thundercall": 75, "Path": "Electrocution" } },{ "name": "Static Fakeout", "desc": "Roll canceling after a parry teleports you behind the opponent.", "req": { "Thundercall": 35, "Agility": 30 } },{ "name": "Static Link", "desc": "Flourishing or uppercutting creates a static link tether.", "req": { "Thundercall": 40, "Intelligence": 15 } },{ "name": "Jumper Cables", "desc": "Getting knocked while tethered steals HP and prevents the knockdown. (3-4s CD)", "req": { "Thundercall": 1, "Fortitude": 20, "Talent": "Static Link" } },{ "name": "Link Conduction", "desc": "Lightning mantras cost 30% less ether per active link.", "req": { "Thundercall": 65, "Talent": "Static Link" } },{ "name": "Static Allure", "desc": "Two active tethers pull targets together; increased duration.", "req": { "Thundercall": 50, "Talent": "Static Link" } },{ "name": "Grounding Bolt", "desc": "Summoned lightning strikes apply knockdown.", "req": { "Thundercall": 90, "Weapon": 90 } },{ "name": "Overload", "desc": "Hitting opponent 3 times overloads yourself, increasing DMG and tempo. Raiton covers you in shock.", "req": { "Thundercall": 100 } }],
+        "Shadowcast": [{ "name": "Withering Path: Decay", "desc": "Your shadow now withers away opponent health.", "req": { "Shadowcast": 50 } },{ "name": "Voidcaller", "desc": "Opponents with no ether or tempo suffer additional wither damage.", "req": { "Shadowcast": 50, "Path": "Withering" } },{ "name": "Infection", "desc": "Wither from shadowcast spreads to nearby enemies.", "req": { "Shadowcast": 60, "Path": "Withering" } },{ "name": "Crushing Thrall", "desc": "Doubles wither received if a shadow mantra breaks guard.", "req": { "Shadowcast": 75, "Path": "Withering" } },{ "name": "Suppression", "desc": "The ether of victims withers away.", "req": { "Shadowcast": 80 } },{ "name": "Senseless Destruction", "desc": "Opponents with >10% wither take more damage from shadow attacks.", "req": { "Shadowcast": 100 } },{ "name": "Dark Synergy", "desc": "Engulf enemies in shadows when flourishing.", "req": { "Shadowcast": 25 } },{ "name": "Sightless Still", "desc": "Shadow attacks increasingly obscure vision. (Mutual with Singularity)", "req": { "Shadowcast": 30 } },{ "name": "Singularity", "desc": "Enemies hang in place when hit by shadow. (Mutual with Sightless Still)", "req": { "Shadowcast": 40 } },{ "name": "Blackhole", "desc": "Singularity pulls nearby people in.", "req": { "Shadowcast": 50, "Talent": "Singularity" } },{ "name": "Energy Siphon", "desc": "Singularity pulls ether from those affected.", "req": { "Shadowcast": 50, "Talent": "Singularity" } },{ "name": "Lord’s Tithe", "desc": "Drains the tempo of enemies you reinforce.", "req": { "Shadowcast": 40, "Mantra": "Reinforce" } },{ "name": "Dark God", "desc": "Steal tempo if a mantra would drain enemy ether to 0.", "req": { "Shadowcast": 50 } },{ "name": "Lasting Sorrow", "desc": "Shadows last longer on the opponent.", "req": { "Shadowcast": 50 } },{ "name": "Fear The Dark", "desc": "Enemies stop in place when running from you.", "req": { "Shadowcast": 50 } },{ "name": "Dark Rift", "desc": "Enter a rift with I-frames when dodging.", "req": { "Shadowcast": 60 } },{ "name": "Dark Waltz", "desc": "Guardbreaking with light attacks/crits steals half of opponent's tempo.", "req": { "Shadowcast": 90, "Weapon": 90 } },{ "name": "Night Terror", "desc": "Light attacks proc Fear the Dark.", "req": { "Shadowcast": 100, "Weapon": 100 } }],
+        "Ironsing": [{ "name": "Decay Path: Oxidize", "desc": "Metal attacks store damage released 7.5s later.", "req": { "Ironsing": 50 } },{ "name": "Decaying Posture", "desc": "Deal more damage to opponents with more posture than you.", "req": { "Ironsing": 75, "Path": "Decay" } },{ "name": "Tetanus", "desc": "Hitting with 5+ rods negates healing based on damage and slows.", "req": { "Ironsing": 80, "Path": "Decay" } },{ "name": "Laced Blade", "desc": "Light attacks on targets with tetanus apply poison.", "req": { "Ironsing": 90, "Path": "Decay" } },{ "name": "Oxidizing Blitz", "desc": "Mantras apply DoT to Health/Blood. Tetanus redirects 20% of healing to you.", "req": { "Ironsing": 100, "Path": "Decay" } },{ "name": "Gilded Path: Scrapsinger", "desc": "Flourish consumes rods to siphon enemy armor to you.", "req": { "Ironsing": 35 } },{ "name": "Artisan's Blade", "desc": "Forges metal blades that fire upon landing metal-infused attacks.", "req": { "Ironsing": 45, "Path": "Gilded" } },{ "name": "Refine and Reuse", "desc": "Consuming rods reduces incoming PEN multiplicatively.", "req": { "Ironsing": 45, "Path": "Gilded" } },{ "name": "Songs Unforged", "desc": "Weapon criticals activate Scrapsinger.", "req": { "Ironsing": 50, "Path": "Gilded" } },{ "name": "Masterwork", "desc": "Artisan’s Blades proc metal rods and deal 50% more damage.", "req": { "Ironsing": 60, "Path": "Gilded" } },{ "name": "Reshape and Remold", "desc": "Scrapsinger procs increase opponent armor damage taken.", "req": { "Ironsing": 70, "Path": "Gilded" } },{ "name": "Thornmail", "desc": "Getting flourished applies a metal rod to the attacker.", "req": { "Ironsing": 45 } },{ "name": "Metal Thief", "desc": "Pulling an opponent absorbs a portion of their armor durability.", "req": { "Ironsing": 50 } },{ "name": "Piercing Metal", "desc": "Deal additional armor damage per rod affecting the enemy.", "req": { "Ironsing": 60 } },{ "name": "Exposed Durability", "desc": "10% more damage to opponents with no armor durability.", "req": { "Ironsing": 60 } },{ "name": "Oh The Irony", "desc": "Taunted opponents receive double iron rods.", "req": { "Ironsing": 60, "Charisma": 45 } },{ "name": "An Ironsinger's Instinct", "desc": "Dodging coats you in metal, reducing damage of next hit. (18s CD)", "req": { "Ironsing": 75 } },{ "name": "Phantom Edge", "desc": "Basic attacks have +0.25 range.", "req": { "Ironsing": 75 } },{ "name": "Polished Armor", "desc": "Receive 5-10% less damage when armor is above 90% durability.", "req": { "Ironsing": 75 } },{ "name": "Metal Eater", "desc": "Consume armor durability to cast mantras when ether is empty.", "req": { "Ironsing": 80 } },{ "name": "Alloyblood", "desc": "Bleed damage reduced by 30%; blood loss reduced by 75%.", "req": { "Ironsing": 100 } },{ "name": "Rending Needle: Conductor", "desc": "Reflect non-ironsing mantra element if target has 5+ rods.", "req": { "Ironsing": 75 } },{ "name": "Rending Needle: Jailer", "desc": "Restrain enemy instead of pulling if they have 5+ rods.", "req": { "Ironsing": 75 } },{ "name": "Rending Needle: Impaler", "desc": "Pull rods out for damage if enemy has 5+ rods.", "req": { "Ironsing": 75 } }],
+        "Bloodrend": [{ "name": "Harvest Season", "desc": "Critical attacks spawn blood pools under the opponent.", "req": { "Bloodrend": 25 } },{ "name": "Not So Cheap Trick", "desc": "Chance to blind opponents with blood control.", "req": { "Bloodrend": 25 } },{ "name": "Rush Hour", "desc": "Stab yourself for DMG/Speed; lose blood/HP over time.", "req": { "Bloodrend": 50 } },{ "name": "Sow and Mend", "desc": "Sacrifice blood for temporary HP.", "req": { "Bloodrend": 60 } },{ "name": "Cyclical Exsanguination", "desc": "Pause Temp HP decay on hit; reduces enemy posture regain from parries.", "req": { "Bloodrend": 65 } },{ "name": "Smell of Blood", "desc": "See enemy blood/poison when they touch pools or are block broken.", "req": { "Bloodrend": 65 } },{ "name": "Sucker Strike", "desc": "Landing a critical while inside a blood pool increases DMG.", "req": { "Bloodrend": 80 } },{ "name": "Gruesome Harvest", "desc": "Landing attacks on heavily poisoned enemies gives Temp HP.", "req": { "Bloodrend": 85 } },{ "name": "Hemorrhaging Blow", "desc": "Block breaking with a mantra turns enemy healing into damage for 8s.", "req": { "Bloodrend": 95 } },{ "name": "Simple Manipulation: Unstable Blood", "desc": "Attacks spawn pools and cause heavy bleeding.", "req": { "Bloodrend": 50 } },{ "name": "Peaking Control", "desc": "Chance for blood pool eruptions to explode.", "req": { "Bloodrend": 75, "Path": "Simple" } },{ "name": "Piercing Totality", "desc": "Explosions affect everyone in range with increased PEN.", "req": { "Bloodrend": 100, "Path": "Simple" } },{ "name": "Manipulation Path: Agile Misery", "desc": "Speed increased; agility mantras empowered with blood.", "req": { "Bloodrend": 50 } },{ "name": "Rushing Demise", "desc": "Spawning pools grants a blood trail that empowers dashes.", "req": { "Bloodrend": 75, "Path": "Agile" } },{ "name": "Protective Offense", "desc": "Spawn protective crosses on blood pool creation for defense.", "req": { "Bloodrend": 100, "Path": "Agile" } },{ "name": "Manipulation Path: Spirit Lantern", "desc": "Attacks poison instead of spawning pools; increased blood regen.", "req": { "Bloodrend": 50 } },{ "name": "Venomous Chain", "desc": "Poison bypasses resistance and deals 2% true damage on chain hits.", "req": { "Bloodrend": 75, "Path": "Lantern" } },{ "name": "Heavy Disease", "desc": "Venomous Chain now also summons a blood pool.", "req": { "Bloodrend": 100, "Path": "Lantern" } }],
+        "Earthbend": [{ "name": "Bastion Path: Reinforce", "desc": "Stand still for 3s to harden skin and reduce incoming damage by 20%.", "req": { "Earthbend": 50, "Fortitude": 25 } },{ "name": "Immovable Fortress", "desc": "Bastion only requires 2s; immune to ragdoll while active.", "req": { "Earthbend": 70, "Fortitude": 30 } },{ "name": "Kinetic Buffer", "desc": "Store damage while in Bastion to buff next Earth or Light attack.", "req": { "Earthbend": 70, "Fortitude": 40 } },{ "name": "Reactive Plates", "desc": "Erupt rock shards when hit during active Bastion. (20s CD)", "req": { "Earthbend": 75, "Fortitude": 50 } },{ "name": "Battlefield Strategist", "desc": "Long-range attacks spawn spikes; short-range spawn walls. (20s CD)", "req": { "Earthbend": 40 } },{ "name": "Natural Disaster", "desc": "Apply Concussion on 3 hits, blinding and hiding enemy HP bar.", "req": { "Earthbend": 50 } },{ "name": "Force of Nature", "desc": "Enemies hitting walls are dazed for longer.", "req": { "Earthbend": 50 } },{ "name": "Momento Mori", "desc": "Going insane increases Earthbend destruction AoE.", "req": { "Earthbend": 50, "Willpower": 20 } },{ "name": "Annihilator", "desc": "Attacks cause bone destruction, slowing opponents.", "req": { "Earthbend": 50, "Strength": 50 } },{ "name": "Vengeful Chase", "desc": "Enemies flourished into walls are struck by Earth Spikes.", "req": { "Earthbend": 70 } },{ "name": "Impermeable", "desc": "Close-range mantras coat you in dust, reducing blood loss.", "req": { "Earthbend": 80 } },{ "name": "Solidifier", "desc": "Elemental hits grant resistance to further elemental damage for 10s.", "req": { "Earthbend": 100 } }],
+        "Multi-Elemental": [{ "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },{ "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 40, "Frostdraw": 40, "Talent": "Haunted Gale" } },{ "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },{ "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },{ "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 50, "Frostdraw": 50, "Path": "Eruption/Glass" } },{ "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },{ "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } },{"name": "Chorus of Souls", "desc": "Alone, the wisp lack a voice. but surrounded by so many, The frequencies overlap and you hear it true. (NEEDS OATHLESS TO WORK)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}},{"name": "Wisp Convergence", "desc": " When empowered by the Chorus, your Wisps now grant their elements to your strikes. (Oathless, All Wisps, Chorus of Souls)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}}]
+    },
+    enchants: ["no enchant", "Adustio", "Astral", "Aflame", "blazing", "bluster", "Chilling", "Curse of deadlock", "Curse of Authoritative", "Curse of Lone warrior", "Curse of Yun'shul", "Curse of Bloodthirsty", "Curse of No-life king", "Curse of the Unbidden", "Curse of Repulsion", "Curse of Rhaemen's Ember", "Curse of Greed", "Deferred", "Detonation", "elastic", "Fallen knight", "Gluttony", "grim", "Harrowing", "Heroism", "Metal", "Nemesis", "nightbring", "Providence's Thorn", "Sear", "Stone", "Storm", "Solar", "Tears of the Edenkite", "Vampirism", "Obfuscation", "Wild", "Windswept", "Withering", "Tainted Sorrows", "Umbral knight", "Scalding", "Mayhem"],
+    weapons: [
+        { name: "Adretian axe", base: 24.0, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Acheron's Warspear", base: 18.0, scaling: { "Medium Weapon": 6.7 } },
+{ name: "Alloyed Katana", base: 23.5, scaling: { "Medium Weapon": 5.0 } },
+{ name: "Alloyed Zweihander", base: 24.5, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Ancient glaive", base: 19.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Anklets of Alsin", base: 16.0, scaling: { "Light Weapon": 6.5 } },
+{ name: "Apprentice rapier", base: 17.0, scaling: { "Light Weapon": 7.5 } },
+{ name: "Astral Greatsword", base: 24.5, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Bloodlust Katana", base: 21.0, scaling: { "Medium Weapon": 7.5 } },
+{ name: "Bloodtide Trident", base: 16.0, scaling: { "Medium Weapon": 6.0 } },
+{ name: "Bloodfouler", base: 19.5, scaling: { "Heavy Weapon": 6.5, "Bloodrend": 5.0 } },
+{ name: "Broodalloy Cestus", base: 15.0, scaling: { "Light Weapon": 9.5 } },
+{ name: "Boltcrusher", base: 25.0, scaling: { "Heavy Weapon": 4.2, "Thundercall": 7.0 } },
+{ name: "Canor Fang", base: 13.5, scaling: { "Light Weapon": 10.0 } },
+{ name: "Cavalry Saber", base: 21.0, scaling: { "Medium Weapon": 5.0 } },
+{ name: "Caestus", base: 16.0, scaling: { "Light Weapon": 8.0 } },
+{ name: "Champion's sword", base: 19.5, scaling: { "Medium Weapon": 5.5 } },
+{ name: "Chorus of agonies", base: 26.0, scaling: { "Heavy Weapon": 11.0 } },
+{ name: "Cerulean Thread", base: 15.0, scaling: { "Light Weapon": 9.0 } },
+{ name: "Crypt Blade", base: 22.0, scaling: { "Heavy Weapon": 4.0, "Shadowcast": 9.0 } },
+{ name: "Crescendo", base: 22.0, scaling: { "Medium Weapon": 6.0 } },
+{ name: "Conqueror's blade", base: 24.5, scaling: { "Heavy Weapon": 8.5 } },
+{ name: "Conqueror's Sword", base: 20.5, scaling: { "Medium Weapon": 8.5 } },
+{ name: "Curved Blade of Winds", base: 17.5, scaling: { "Medium Weapon": 5.0, "Galebreathe": 5.0 } },
+{ name: "Curved Blade", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Deepspindle", base: 14.0, scaling: { "Light Weapon": 1.7, "Shadowcast": 5.0 } },
+{ name: "Death's Reverie", base: 18.0, scaling: { "Medium Weapon": 5.0 } },
+{ name: "Darksteal Greatsword", base: 26.0, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Drakemaw Gauntlets", base: 16.0, scaling: { "Light Weapon": 8.5 } },
+{ name: "Edenbrand Hellcoil", base: 27.0, scaling: { "Heavy Weapon": 8.3 } },
+{ name: "Enforcer's axe", base: 25.0, scaling: { "Heavy Weapon": 11.0 } },
+{ name: "Enforcer's blade", base: 24.5, scaling: { "Heavy Weapon": 8.5 } },
+{ name: "Enforcer's hammer", base: 25.5, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Evanspear greataxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 } },
+{ name: "Eye of Malice", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Falchion", base: 16.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Flamekeeper cestus", base: 18.0, scaling: { "Light Weapon": 8.0 } },
+{ name: "Flareblood Kamas", base: 16.0, scaling: { "Light Weapon": 3.2, "Intelligence": 2.0 } },
+{ name: "First Light", base: 22.0, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Forgotten Gladius", base: 19.5, scaling: { "Medium Weapon": 8.2 } },
+{ name: "Fractine", base: 22.0, scaling: { "Heavy Weapon": 7.0, "Intelligence": 4.0 } },
+{ name: "Forge Greathammer", base: 25.5, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Gaunts of Emnity", base: 15.0, scaling: { "Light Weapon": 11.0 } },
+{ name: "Godseeker Wraps", base: 20.0, scaling: { "Light Weapon": 4.5 } },
+{ name: "Gran Sudaruska", base: 24.0, scaling: { "Heavy Weapon": 4.0, "Frostdraw": 8.0 } },
+{ name: "Great Maul", base: 25.5, scaling: { "Heavy Weapon": 9.5 } },
+{ name: "Hailbreaker", base: 22.0, scaling: { "Heavy Weapon": 7.0, "Frostdraw": 4.0 } },
+{ name: "Halberd", base: 23.0, scaling: { "Heavy Weapon": 9.5 } },
+{ name: "Hearthwarden", base: 26.0, scaling: { "Heavy Weapon": 5.0, "Earthbend": 3.5 } },
+{ name: "Hivelord Hubris", base: 28.0, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Hivelord Fist", base: 18.5, scaling: { "Light Weapon": 6.0, "Strength": 2.0 } },
+{ name: "Iron Blunderbuss", base: 18.5, scaling: { "Medium Weapon": 7.0 } },
+{ name: "Injuria", base: 19.5, scaling: { "Medium Weapon": 9.0 } },
+{ name: "Iron Spear", base: 17.0, scaling: { "Medium Weapon": 8.5 } },
+{ name: "Iron Twinblade", base: 22.0, scaling: { "Medium Weapon": 4.0 } },
+{ name: "Imperial Staff", base: 19.5, scaling: { "Medium Weapon": 5.0, "Strength": 3.5 } },
+{ name: "Imperators Edge", base: 20.0, scaling: { "Medium Weapon": 2.0, "Fortitude": 4.0, "Strength": 3.0 } },
+{ name: "Ignition Deepcrusher", base: 17.5, scaling: { "Medium Weapon": 2.0, "Ironsing": 3.0 } },
+{ name: "Flame HB", base: 20.0, scaling: { "Flamecharm": 7.5 } },
+{ name: "Frost HB", base: 20.0, scaling: { "Frostdraw": 7.5 } },
+{ name: "Lightning HB", base: 20.0, scaling: { "Thundercall": 7.5 } },
+{ name: "Shadow HB", base: 20.0, scaling: { "Shadowcast": 7.5 } },
+{ name: "Wind HB", base: 20.0, scaling: { "Galebreathe": 7.5 } },
+{ name: "Inferno Blade / Cleaver", base: 24.0, scaling: { "Flamecharm": 9.5 } },
+{ name: "Inferno Hammer", base: 24.5, scaling: { "Flamecharm": 9.5 } },
+{ name: "Inferno Dagger", base: 17.5, scaling: { "Flamecharm": 4.0 } },
+{ name: "Inferno Piercer", base: 16.5, scaling: { "Flamecharm": 7.5 } },
+{ name: "Inferno Gauntlet", base: 19.0, scaling: { "Flamecharm": 4.0 } },
+{ name: "Inferno Glaive", base: 18.0, scaling: { "Flamecharm": 8.0 } },
+{ name: "Inferno Club", base: 21.0, scaling: { "Flamecharm": 3.5 } },
+{ name: "Glacier Blade / Cleaver", base: 24.0, scaling: { "Frostdraw": 9.5 } },
+{ name: "Glacier Hammer", base: 24.5, scaling: { "Frostdraw": 9.5 } },
+{ name: "Glacier Dagger", base: 17.5, scaling: { "Frostdraw": 4.0 } },
+{ name: "Glacier Piercer", base: 16.5, scaling: { "Frostdraw": 7.5 } },
+{ name: "Glacier Gauntlet", base: 19.0, scaling: { "Frostdraw": 4.0 } },
+{ name: "Glacier Glaive", base: 18.0, scaling: { "Frostdraw": 8.0 } },
+{ name: "Glacier Club", base: 21.0, scaling: { "Frostdraw": 3.5 } },
+{ name: "Thunderbolt Blade / Cleaver", base: 24.0, scaling: { "Thundercall": 9.5 } },
+{ name: "Thunderbolt Hammer", base: 24.5, scaling: { "Thundercall": 9.5 } },
+{ name: "Thunderbolt Dagger", base: 17.5, scaling: { "Thundercall": 4.0 } },
+{ name: "Thunderbolt Piercer", base: 16.5, scaling: { "Thundercall": 7.5 } },
+{ name: "Thunderbolt Gauntlet", base: 19.0, scaling: { "Thundercall": 4.0 } },
+{ name: "Thunderbolt Glaive", base: 18.0, scaling: { "Thundercall": 8.0 } },
+{ name: "Thunderbolt Club", base: 21.0, scaling: { "Thundercall": 3.5 } },
+{ name: "Penumbra Blade / Cleaver", base: 24.0, scaling: { "Shadowcast": 9.5 } },
+{ name: "Penumbra Hammer", base: 24.5, scaling: { "Shadowcast": 9.5 } },
+{ name: "Penumbra Dagger", base: 17.5, scaling: { "Shadowcast": 4.0 } },
+{ name: "Penumbra Piercer", base: 16.5, scaling: { "Shadowcast": 7.5 } },
+{ name: "Penumbra Gauntlet", base: 19.0, scaling: { "Shadowcast": 4.0 } },
+{ name: "Penumbra Glaive", base: 18.0, scaling: { "Shadowcast": 8.0 } },
+{ name: "Penumbra Club", base: 21.0, scaling: { "Shadowcast": 3.5 } },
+{ name: "Zephyr Blade / Cleaver", base: 24.0, scaling: { "Galebreathe": 9.5 } },
+{ name: "Zephyr Hammer", base: 24.5, scaling: { "Galebreathe": 9.5 } },
+{ name: "Zephyr Dagger", base: 17.5, scaling: { "Galebreathe": 4.0 } },
+{ name: "Zephyr Piercer", base: 16.5, scaling: { "Galebreathe": 7.5 } },
+{ name: "Zephyr Gauntlet", base: 19.0, scaling: { "Galebreathe": 4.0 } },
+{ name: "Zephyr Glaive", base: 18.0, scaling: { "Galebreathe": 8.0 } },
+{ name: "Zephyr Club", base: 21.0, scaling: { "Galebreathe": 3.5 } },
+{ name: "Alloy Blade / Cleaver", base: 24.0, scaling: { "Ironsing": 9.5 } },
+{ name: "Alloy Hammer", base: 24.5, scaling: { "Ironsing": 9.5 } },
+{ name: "Alloy Dagger", base: 17.5, scaling: { "Ironsing": 4.0 } },
+{ name: "Alloy Piercer", base: 16.5, scaling: { "Ironsing": 7.5 } },
+{ name: "Alloy Gauntlet", base: 19.0, scaling: { "Ironsing": 4.0 } },
+{ name: "Alloy Glaive", base: 18.0, scaling: { "Ironsing": 8.0 } },
+{ name: "Alloy Club", base: 21.0, scaling: { "Ironsing": 3.5 } },
+{ name: "Vital Blade / Cleaver", base: 24.0, scaling: { "Bloodrend": 9.5 } },
+{ name: "Vital Hammer", base: 24.5, scaling: { "Bloodrend": 9.5 } },
+{ name: "Vital Dagger", base: 17.5, scaling: { "Bloodrend": 4.0 } },
+{ name: "Vital Piercer", base: 16.5, scaling: { "Bloodrend": 7.5 } },
+{ name: "Vital Gauntlet", base: 19.0, scaling: { "Bloodrend": 4.0 } },
+{ name: "Vital Glaive", base: 18.0, scaling: { "Bloodrend": 8.0 } },
+{ name: "Vital Club", base: 21.0, scaling: { "Bloodrend": 3.5 } },
+{ name: "Kanabo", base: 25.0, scaling: { "Heavy Weapon": 6.0, "Strength": 3.0 } },
+{ name: "Krulian Knife", base: 15.0, scaling: { "Light Weapon": 8.5 } },
+{ name: "Kyrsblade", base: 21.5, scaling: { "Medium Weapon": 7.5 } },
+{ name: "Kyrscleave", base: 25.0, scaling: { "Heavy Weapon": 9.5 } },
+{ name: "Kyrsglaive", base: 18.0, scaling: { "Medium Weapon": 8.5 } },
+{ name: "Kyrstreza", base: 17.0, scaling: { "Light Weapon": 7.5 } },
+{ name: "Kyrsedge", base: 16.0, scaling: { "Light Weapon": 9.0 } },
+{ name: "Kyrswynter", base: 16.5, scaling: { "Medium Weapon": 3.0, "Frostdraw": 3.0 } },
+{ name: "Legion Caestus", base: 18.0, scaling: { "Light Weapon": 8.0 } },
+{ name: "Lights Final Toll", base: 13.0, scaling: { "Willpower": 13.0 } },
+{ name: "Lifecrusher", base: 17.5, scaling: { "Medium Weapon": 1.5, "Bloodrend": 5.5 } },
+{ name: "Lords Warcry", base: 20.0, scaling: { "Medium Weapon": 3.0, "Flamecharm": 6.5 } },
+{ name: "Nemits Sickle", base: 13.0, scaling: { "Light Weapon": 13.0 } },
+{ name: "Night Axe", base: 22.0, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Nocturne", base: 19.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Otakemaru", base: 26.5, scaling: { "Heavy Weapon": 5.5 } },
+{ name: "Officer Saber", base: 22.0, scaling: { "Medium Weapon": 4.5 } },
+{ name: "Markors Inheritor", base: 24.0, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Master Hawk Handaxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 } },
+{ name: "Pale Briar", base: 25.0, scaling: { "Heavy Weapon": 7.0 } },
+{ name: "Pale Morning", base: 25.5, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Petras Anchor", base: 25.5, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Pernach", base: 20.0, scaling: { "Medium Weapon": 5.0 } },
+{ name: "Poison Spear", base: 18.0, scaling: { "Medium Weapon": 5.5, "Intelligence": 2.0 } },
+{ name: "Purple Cloud", base: 17.0, scaling: { "Medium Weapon": 9.0 } },
+{ name: "Pleekstys Inferno", base: 22.0, scaling: { "Medium Weapon": 3.0, "Flamecharm": 4.0 } },
+{ name: "Quartztone Pickaxe", base: 22.0, scaling: { "Heavy Weapon": 7.0 } },
+{ name: "Railblade", base: 25.0, scaling: { "Heavy Weapon": 6.5 } },
+{ name: "Razor Cutlass", base: 18.0, scaling: { "Medium Weapon": 8.9 } },
+{ name: "Relic Axe", base: 25.0, scaling: { "Heavy Weapon": 9.0 } },
+{ name: "Red Death", base: 16.5, scaling: { "Medium Weapon": 2.0, "Shadow": 2.0, "Bloodrend": 2.0, "Mind": 2.0 } },
+{ name: "Rifle Spear", base: 19.0, scaling: { "Medium Weapon": 8.5 } },
+{ name: "Rosens Peacemaker", base: 17.5, scaling: { "Medium Weapon": 7.5 } },
+{ name: "Rosens Hellflame", base: 18.0, scaling: { "Medium Weapon": 3.0, "Flame": 4.0 } },
+{ name: "Rockmaller", base: 25.0, scaling: { "Heavy Weapon": 7.5 } },
+{ name: "Scalesplitter", base: 20.0, scaling: { "Medium Weapon": 6.0 } },
+{ name: "Sacred Hammer", base: 21.0, scaling: { "Medium Weapon": 7.0 } },
+{ name: "Serrated Warspear", base: 18.5, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Shattered Katana", base: 20.0, scaling: { "Medium Weapon": 7.0 } },
+{ name: "Skyreap Blade", base: 24.5, scaling: { "Heavy Weapon": 7.5 } },
+{ name: "Skull Piercer", base: 16.5, scaling: { "Light Weapon": 7.5 } },
+{ name: "Staff of Blood", base: 18.0, scaling: { "Medium Weapon": 9.5 } },
+{ name: "Stormseye", base: 17.0, scaling: { "Medium Weapon": 2.0, "Thunder": 5.0 } },
+{ name: "Stoneheart", base: 24.0, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Steel Maul", base: 23.5, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Sovereign's Punishment", base: 26.0, scaling: { "Heavy Weapon": 9.0 } },
+{ name: "Soulthorn", base: 17.0, scaling: { "Medium Weapon": 7.0, "Intelligence": 3.5 } },
+{ name: "Summer Blade", base: 26.0, scaling: { "Heavy Weapon": 8.5 } },
+{ name: "Summer Kukri", base: 18.5, scaling: { "Medium Weapon": 8.3 } },
+{ name: "Summer Dagger", base: 15.0, scaling: { "Light Weapon": 8.5 } },
+{ name: "Summer Axe", base: 22.0, scaling: { "Heavy Weapon": 11.0 } },
+{ name: "Summer Staff", base: 18.0, scaling: { "Medium Weapon": 9.5 } },
+{ name: "Shotel", base: 22.0, scaling: { "Medium Weapon": 6.0 } },
+{ name: "Spectral Grasp", base: 16.0, scaling: { "Light Weapon": 7.0 } },
+{ name: "Sirens Edict", base: 22.0, scaling: { "Heavy Weapon": 4.5, "Ironsing": 7.0 } },
+{ name: "Thunderbreakers Gauntlets", base: 17.5, scaling: { "Light Weapon": 3.0, "Thunder": 6.0 } },
+{ name: "The Barrel", base: 25.5, scaling: { "Heavy Weapon": 8.5 } },
+{ name: "The Pastry Paster", base: 18.0, scaling: { "Medium Weapon": 5.0, "Mind": 3.0 } },
+{ name: "The Flippers of Fate", base: 14.5, scaling: { "Light Weapon": 8.0, "Mind": 5.0 } },
+{ name: "The Long Tong of The Law", base: 20.0, scaling: { "Heavy Weapon": 8.5, "Mind": 5.0 } },
+{ name: "Tyrant's Greatspear", base: 19.5, scaling: { "Heavy Weapon": 3.5, "Medium Weapon": 3.5 } },
+{ name: "Tyrant's Greatsword", base: 24.0, scaling: { "Light Weapon": 3.1, "Heavy Weapon": 4.1 } },
+{ name: "True Seraph Spear", base: 19.0, scaling: { "Medium Weapon": 9.0 } },
+{ name: "Trident Spear", base: 18.5, scaling: { "Medium Weapon": 7.0 } },
+{ name: "Toothed Club", base: 20.0, scaling: { "Medium Weapon": 5.0 } },
+{ name: "Tetherspear", base: 18.5, scaling: { "Medium Weapon": 8.5 } },
+{ name: "Umbrite Witherblade", base: 14.0, scaling: { "Medium Weapon": 14.0 } },
+{ name: "Volfram", base: 17.5, scaling: { "Medium Weapon": 4.0, "Ironsing": 3.0 } },
+{ name: "Vortex Echo", base: 13.5, scaling: { "Charisma": 3.5, "Light Weapon": 8.0 } },
+{ name: "Vigil Longsword", base: 20.0, scaling: { "Medium Weapon": 7.5 } },
+{ name: "Warden Ceremonial Sword", base: 17.0, scaling: { "Medium Weapon": 8.5 } },
+{ name: "Worshipper Longsword", base: 19.0, scaling: { "Medium Weapon": 4.0 } },
+{ name: "Worldpiercer Gauntlets", base: 18.0, scaling: { "Light Weapon": 8.0 } },
+{ name: "Wraithclaw", base: 16.0, scaling: { "Galebreathe": 5.5, "Light Weapon": 4.0 } },
+{ name: "Whisperwind", base: 25.0, scaling: { "Galebreathe": 6.5, "Heavy Weapon": 4.0 } },
+{ name: "Wretched Mawblades", base: 27.5, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Wrist Weights", base: 16.0, scaling: { "Light Weapon": 6.5 } },
+{ name: "Wristless Weights", base: 16.0, scaling: { "Light Weapon": 6.5 } },
+{ name: "Wyrmtooth", base: 22.0, scaling: { "Medium Weapon": 4.5, "Heavy Weapon": 4.0 } },
+{ name: "Wyvern Dualclaw", base: 22.0, scaling: { "Medium Weapon": 7.0 } },
+{ name: "Ysleys Pyre Keeper", base: 21.5, scaling: { "Heavy Weapon": 5.0, "Flamecharm": 6.0 } },
+{ name: "Ysleys Pyre Reeper (NON-CHEST)", base: 21.5, scaling: { "Heavy Weapon": 5.0, "Flamecharm": 6.0 } },
+{ name: "Golden Swordfish", base: 17.0, scaling: { "Light Weapon": 7.5 } },
+{ name: "Base sword", base: 18.0, scaling: { "Medium Weapon": 2.0 } },
+{ name: "Pasado", base: 26.0, scaling: { "Heavy Weapon": 10.5 } },
+{ name: "Clockwork Greatsword", base: 26.0, scaling: { "Heavy Weapon": 7.5, "Precision": 3.5 } },
+{ name: "Enchained song", base: 18.5, scaling: { "Light Weapon": 8.5 } },
+{ name: "Soul split katana", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Artemis", base: 16.5, scaling: { "Medium Weapon": 9.0, "Precision": 3.0 } },
+{ name: "Centurion gauntlets", base: 18.5, scaling: { "Fortitude": 3.0, "Light Weapon": 5.0 } },
+{ name: "Blinding flash", base: 17.0, scaling: { "Light Weapon": 7.0 } },
+{ name: "Endless abyss", base: 18.0, scaling: { "Medium Weapon": 10.0 } },
+{ name: "Empty abyss", base: 17.0, scaling: { "Medium Weapon": 10.0 } },
+{ name: "Unleashed purple cloud", base: 17.0, scaling: { "Medium Weapon": 10.0 } },
+{ name: "Ysleys Reaper", base: 24.5, scaling: { "Heavy Weapon": 7.5 } },
+{ name: "Azure Pinwheel", base: 26.5, scaling: { "Heavy Weapon": 8.5 } },
+{ name: "Gladius of thorns", base: 17.5, scaling: { "Medium Weapon": 5.0, "Light Weapon": 5.0 } },
+{ name: "Athompeace", base: 24.0, scaling: { "Heavy Weapon": 9.5 } },
+{ name: "Naginata", base: 17.0, scaling: { "Medium Weapon": 9.5 } },
+{ name: "Sheu Hu", base: 19.5, scaling: { "Medium Weapon": 4.5, "Heavy Weapon": 6.5 } },
+{ name: "Moon blade", base: 16.0, scaling: { "Light Weapon": 3.5, "Intelligence": 2.0 } },
+{ name: "Last Struggle", base: 16.5, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Maestro Shattered", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
+{ name: "Normal claw", base: 22.0, scaling: { "Medium Weapon": 6.0 } },
+{ name: "Funky driftlander", base: 23.0, scaling: { "Heavy Weapon": 8.0 } },
+{ name: "Sinkindred", base: 20.0, scaling: { "Medium Weapon": 7.5 } },
+{ name: "Sunyata", base: 16.0, scaling: { "Light Weapon": 8.0 } },
+{ name: "Sealed sword", base: 19.5, scaling: { "Medium Weapon": 5.5, "Precision": 2.5 } },
+{ name: "Sporeshot", base: 14.5, scaling: { "Light Weapon": 15.0 } },
+{ name: "Shroomerang", base: 24.0, scaling: { "Medium Weapon": 4.0 } },
+{ name: "Kaide", base: 20.0, scaling: { "Medium Weapon": 7.5 } },
+{ name: "Ratboy Handgun", base: 15.0, scaling: { "Light Weapon": 11.0 } },
+{ name: "The endless wave", base: 25.0, scaling: { "Heavy Weapon": 8.0, "Strength": 1.0 } },
+{ name: "Ratking axe", base: 28.0, scaling: { "Heavy Weapon": 10.0 } },
+{ name: "Nos dywll", base: 23.0, scaling: { "Heavy Weapon": 8.0 } },
+    ],
+
+    mantras: {
+       "Flamecharm": [
+            { "name": "Fire Blade", "desc": "Reversal Spark: Disables Starkindred Fire Blade Variant", "req": { "Flamecharm": 1 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d0c0aa43c9b442618ba84b/download/2025-09-2123-20-12-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Burning Servants", "desc": "Spawns fire minions.", "req": { "Flamecharm": 1 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d0c173b87ccfb239aef7af/download/2025-09-2123-23-07-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Fire Kick", "desc": "Quick fire-infused kick.", "req": { "Flamecharm": 1 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d0c31849c6e2a389784db3/download/2025-09-2123-30-44-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Fire Forge (Base)", "desc": "throw flame daggers.", "req": { "Flamecharm": 20 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d0c4c96c88911191344df6/download/2025-09-2123-35-04-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Fire Forge (Tornado Spark)", "desc": "Upgraded fire forge.", "req": { "Flamecharm": 20 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/6929c8955d6e0707648d6db9/download/Firefuckbutcool-ezgif.com-crop.gif" },
+            { "name": "Rising Flame", "desc": "(Procs Meteor Impact Talent)", "req": { "Flamecharm": 20 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d7997d7a64b241cc836e71/download/2025-09-2703-58-56-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Fire Eruption", "desc": "fire eruption, the fuck did u expect?.", "req": { "Flamecharm": 30 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d798c74d1147fcef1b8241/download/2025-09-2703-55-08-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Flame Assault", "desc": "Forward flame dash attack.", "req": { "Flamecharm": 30 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d799903932f0d438a53244/download/2025-09-2703-59-28-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Flaming Scourge", "desc": "3 Hits, 2 during swing grab. 3rd is a downslam.", "req": { "Flamecharm": 50 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d79a8449c61fb155a2f25a/download/2025-09-2704-03-01-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Flaming Scourge (reversal spark)", "desc": "God, this is gonna be annoying to fight.", "req": { "Flamecharm": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1453041365004062801/RobloxStudioBeta_I5xnTdPc9B.gif?ex=694c01b9&is=694ab039&hm=86843b6f57614576aae4f0a790871676cc1ef9d0a7b0ef64441d94e835a6eb34&=&width=670&height=615" },
+            { "name": "Ash Slam", "desc": "2nd hit ragdolls.", "req": { "Flamecharm": 50, "Strength": 30 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d79aa2bccdf7c632efe712/download/2025-09-2704-03-32-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Flame volley", "desc": "throw up to 3 fire balls to volley at ppl", "req": { "Flamecharm": 30 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711077413519511/Flarevolleyt-ezgif.com-crop.gif?ex=694ace1e&is=69497c9e&hm=ed75a74003b678928b7b7dcbf85cc4659707325a72f45704ced3c9a4a8c5e363&=&width=381&height=388" },
+            { "name": "Flame repulsion", "desc": "you become the bomb", "req": { "Flamecharm": 1 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711012930420938/Flamerepulsion-ezgif.com-crop.gif?ex=694ace0f&is=69497c8f&hm=4823399a37c932115378402e6d1965e10e701c0b069987b148097918750c3f6f&=&width=381&height=388" },
+            { "name": "Flame repulsion (spring spark)", "desc": "yowaimo", "req": { "Flamecharm": 1 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711013425221725/Flamespring-ezgif.com-crop.gif?ex=694ace0f&is=69497c8f&hm=797ce26cbdb9c40182ae68aa620814eaebd73726fd119afded498dcdc84bad13&=&width=381&height=388" }
+        ],
+        "Frostdraw": [
+            { "name": "Ice Blade", "desc": "Ice-infused blade attack.", "req": { "Frostdraw": 20 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b64d4620d0e0820c09898/download/iceblades-ezgif.com-crop.gif" },
+            { "name": "Ice Daggers", "desc": "Throw daggers of ice.", "req": { "Frostdraw": 20 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b6502fcfdd304aa062f25/download/icedaggers-ezgif.com-crop.gif" },
+            { "name": "Ice Chain", "desc": "Chains the target in frost.(ez parr bait mantra)", "req": { "Frostdraw": 20 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b6647d8ee6da76563f121/download/Icechain-ezgif.com-crop.gif" },
+            { "name": "Ice Lasers", "desc": "amount of lasers scales to the amount of frostdraw that u got", "req": { "Frostdraw": 20 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b673e9ef8d553f6e1e484/download/icelaser-ezgif.com-crop.gif" },
+            { "name": "Ice Eruption", "desc": "trap ppl in ice and combo extend", "req": { "Frostdraw": 20 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b666b9712bc124dbabd40/download/iceeruption-ezgif.com-crop.gif" },
+            { "name": "Ice Lance", "desc": "top 5 best combo extenders", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b6557271306f0d16b7ef3/download/icelance-ezgif.com-crop.gif" },
+            { "name": "Ice Smash", "desc": "gbs at lvl 5", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b6579b8f75c68fe54e8c8/download/icesmash-ezgif.com-crop.gif" },
+            { "name": "Frost Grab", "desc": "Pull enemies closer with ice.", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b669d66421cf34265eea0/download/Frostgrab-ezgif.com-crop.gif" },
+            { "name": "Crystal Knee", "desc": "Uppercut the opps with your knee.", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b6598a567c4f80995f4c9/download/crystalknee-ezgif.com-crop.gif" },
+            { "name": "Crystal Impale", "desc": "Impale target with ice crystals.", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b65b536f88b719b5a3bd2/download/Crystalimpale-ezgif.com-crop.gif" },
+            { "name": "Rising Frost", "desc": "rising flame sister", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b65d2885733951812a96e/download/risingfrost-ezgif.com-crop.gif" },
+            { "name": "Frost Wisp", "desc": "Summon a frost companion.", "req": { "Frostdraw": 30 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b67072c848410e019cafd/download/frostwisp-ezgif.com-crop.gif" },
+            { "name": "Ice Cubes", "desc": "ice cubes, baby", "req": { "Frostdraw": 50 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b666e915247d16aca1dc7/download/icecubes-ezgif.com-crop.gif" },
+            { "name": "Glacial Collapse", "desc": "Massive ice slam.", "req": { "Frostdraw": 50, "Strength": 20 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b6760712fe32ebc369116/download/Glacialcollapse-ezgif.com-crop.gif" },
+            { "name": "Iceberg", "desc": "Form an iceberg that heals you (this mantra sucks)", "req": { "Frostdraw": 50 }, "gif": "https://trello.com/1/cards/68cf8a00e78a1928f93e928e/attachments/691b65eeaa549a73770a95cd/download/Iceberg-ezgif.com-crop.gif" }
+        ],
+        "Galebreathe": [
+            { "name": "Wind Blade", "desc": "has a Sliding variant, aim with mouse.", "req": { "Galebreathe": 1 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/68e2daefd6149de6998573d1/download/2025-10-0516-40-26-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Gale Lunge", "desc": "Can Proc Haunted Gale.", "req": { "Galebreathe": 20 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b67b86565054e82d79a06/download/Gale_Lunge-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Wind Forge", "desc": "Wind daggers that autoaim.", "req": { "Galebreathe": 20 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b68b3b22fe3f72c71dc4a/download/Windforge-ezgif.com-crop.gif" },
+            { "name": "Twister Kicks", "desc": "Spinning kicks. (fuckass mantra)", "req": { "Galebreathe": 20 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b67d7ef572e1ddd2be0d5/download/twisterkicks-ezgif.com-crop.gif" },
+            { "name": "Heavenly Wind", "desc": "fly up in the sky then slam the opps.", "req": { "Galebreathe": 20 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b67f15167a9dd4042de72/download/heavenlywind-ezgif.com-crop.gif" },
+            { "name": "Gale Punch", "desc": "not the same as real deep one", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b680a848d67ae0b7ed132/download/Galepunch-ezgif.com-crop.gif" },
+            { "name": "Rising Wind", "desc": "Rising flame's best friend", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b681c57537bf19fd1cd63/download/RisingWind-ezgif.com-crop.gif" },
+            { "name": "Wind Gun", "desc": "Blast/Multiplying Spark available. DM me or Ping me if u got gifs", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b68f0df918f213010d184/download/Windgun-ezgif.com-crop.gif" },
+            { "name": "Champion’s Whirlthrow", "desc": "Spinning throw that gbs.", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b682f2183b78ed4a27cbf/download/Champwhirlthrow-ezgif.com-crop.gif" },
+            { "name": "Wind Carve", "desc": "Slicing wind waves.", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b6842e3d6fb21eb997981/download/Windcarve-ezgif.com-crop.gif" },
+            { "name": "Gale Wisp", "desc": "Wind companion.", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b6919bfa2b665955c7c92/download/Galewisp-ezgif.com-crop.gif" },
+            { "name": "Wind Passage", "desc": "Teleporting wind strike.", "req": { "Galebreathe": 50 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b68551f884b58cbd51655/download/Windpassage-ezgif.com-crop.gif" },
+            { "name": "Astral Wind", "desc": "top 3 mantras of all time", "req": { "Galebreathe": 50 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b686587d386959f425909/download/Astralwind-ezgif.com-crop.gif" },
+            { "name": "Talon Gale", "desc": "he tryna be rising wind but fails", "req": { "Galebreathe": 50, "Agility": 20 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263587044266085/RobloxStudioBeta_LMiiDnO9MO.gif?ex=69492d5c&is=6947dbdc&hm=1fa4883911fa600aceebb89d76033fb4f82e3de69ff4dad0786ae41f49d24998&=&width=718&height=581" }
+        ],
+        "Thundercall": [
+            { "name": "Jolt Grab", "desc": "Electric grab.", "req": { "Thundercall": 1 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1453041364395626566/RobloxStudioBeta_xJ91yP6bCb.gif?ex=694c01b9&is=694ab039&hm=b5cbe483013bedd67bfa8f0e8cde66ee0f7e9fb1adefc214a3a5a24ea641386e&=&width=844&height=733" },
+            { "name": "Jolt Grab (magnet spark)", "desc": "Electric autoaim grab attack.", "req": { "Thundercall": 1 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b69e7a0a869e0e2bbb8d3/download/Joltgrab-ezgif.com-crop.gif" },
+            { "name": "Lightning Blade", "desc": "Two lightning slashes.", "req": { "Thundercall": 1 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6a3ddb1d6a5e8747bd4a/download/Lightningblade-ezgif.com-crop.gif" },
+            { "name": "Lightning Beam", "desc": "Fast lightning beam.", "req": { "Thundercall": 1 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6a5e673ed0df2d1477cb/download/Lightningbeam-ezgif.com-crop.gif" },
+            { "name": "Thunder Kick", "desc": "lightning kick that gbs.", "req": { "Thundercall": 20 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6a748011e90ce0cd53c8/download/Thunderkick-ezgif.com-crop.gif" },
+            { "name": "Lightning Impact", "desc": "Lightning ground slam.(WARNING: VERY DELAYED)", "req": { "Thundercall": 20 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6aa558f6755c24dad516/download/Lightningimpact-ezgif.com-crop.gif" },
+            { "name": "Fleeting Sparks", "desc": "Burst of 3 to 5 electrical balls.", "req": { "Thundercall": 20 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6ad0a3234b1ae625f2cf/download/Fleetingsparks-ezgif.com-crop.gif" },
+            { "name": "Grand Javelin", "desc": "Massive lightning spear.(this is just pika-pika no mi)", "req": { "Thundercall": 30 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6ae65d4526c223c2dd69/download/Grandjavelin-ezgif.com-crop.gif" },
+            { "name": "Grand Javelin (multiplying spark)", "desc": "i sure hope this wont deal triple the dmg!", "req": { "Thundercall": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1453041364010012753/RobloxStudioBeta_RGcGKi8k71.gif?ex=694c01b9&is=694ab039&hm=f64daf902925cd64103bcde29ec980cd302e356d8ed05df287ae1de66498356d&=&width=846&height=735" },
+            { "name": "Thunder Wisp", "desc": "Electric companion.", "req": { "Thundercall": 30 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6ba0ece67f35ef470217/download/Thunderwisp-ezgif.com-crop.gif" },
+            { "name": "Storm Blades", "desc": "Circle of lighting blades.", "req": { "Thundercall": 30 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6b0ad29526a1189ddfc2/download/Stormblades-ezgif.com-crop.gif" },
+            { "name": "Electro Carve", "desc": "lightning AOE attack (rest in peace old electro carve)", "req": { "Thundercall": 50 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711012129046710/Electcarve-ezgif.com-crop.gif?ex=694ace0f&is=69497c8f&hm=51a4f90a3cfea5840e61e39d038b4d725c5c3ec5868cd5cad8ab7ea1133b1165&=&width=381&height=320" },
+            { "name": "Electro Carve (magnet spark)", "desc": "throw electro ball at ppl (most fuckass move ever)", "req": { "Thundercall": 50 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711079288504350/Electmagnet-ezgif.com-crop.gif?ex=694ace1f&is=69497c9f&hm=5f011f02fc5c32e706045578de94b2aa89fcb9b17a8c8e18e076e263c82420ef&=&width=381&height=388" },
+            { "name": "Electro Carve (blast spark)", "desc": "YOU become the lightning AOE attack (friendly fire version)", "req": { "Thundercall": 50 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711078495654140/Electblast-ezgif.com-crop.gif?ex=694ace1f&is=69497c9f&hm=6c9f5d56cb22d159d9eb81f36c04c7314629b81ada7d7c72fffe5ab2ccde7a2a&=&width=681&height=416" },
+            { "name": "Rising Thunder", "desc": "Launches the user with lightning to do a barrage of lightning attacks (idk how to explain it).", "req": { "Thundercall": 50 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b6b5217adcab102d9d67f/download/Risingthunder-ezgif.com-crop.gif" },
+            { "name": "Emotion Wave", "desc": "Expanding wave of electricity.(reworked verison is still ass)", "req": { "Thundercall": 50 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/6949846af9ba63ff841c518b/download/NewEmotion-ezgif.com-crop.gif" },
+            { "name": "Lighting assault", "desc": "speedrunner favo mantra (i think you can clip throught most stuff with it)", "req": { "Thundercall": 30 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711011780923564/Lightassault-ezgif.com-crop.gif?ex=694ace0f&is=69497c8f&hm=80413f9d5f15e19bd4020bf97ea7f08ed99c9ed0e2cc265a5112d19327f35a3b&=&width=381&height=293" },
+            { "name": "Lighting stream", "desc": "1 frame mantra (dw its balanced here)", "req": { "Thundercall": 50 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711013890916494/Lightstream-ezgif.com-crop.gif?ex=694ace0f&is=69497c8f&hm=e49a65711794cef6e6c6c2b556dbb991c4ce1567cee9abda8d6d8d379427c586&=&width=381&height=388" },
+            { "name": "Lighting stream (blast spark)", "desc": "more dmg instead of pull", "req": { "Thundercall": 50 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711012443885590/Streamblast-ezgif.com-crop.gif?ex=694ace0f&is=69497c8f&hm=c1dc850959ce47f34f48f25e5a822452c9521e620718a25054d1e9eef5a9f647&=&width=381&height=388" },
+            { "name": "Lighting stream (reversal spark)", "desc": "you get pulled instead (why?)", "req": { "Thundercall": 50 }, "gif": "https://media.discordapp.net/attachments/1452708466320998420/1452711077736611943/Lightstreamreversal-ezgif.com-crop.gif?ex=694ace1e&is=69497c9e&hm=7e45f1477209d8dc238d2ed9e544c4eb3e4cba26987ae14c1e093e106c5b8368&=&width=381&height=388" }
+        ],
+        "Shadowcast": [
+            { "name": "Dark Blade", "desc": "3 shadow slashes.", "req": { "Shadowcast": 1 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b73b7daa9cc3191f21ac7/download/darkblade-ezgif.com-crop.gif" },
+            { "name": "Clutching Shadow", "desc": "Grab from the abyss.(cold description ik)", "req": { "Shadowcast": 1 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b73fdcaf729a4812b9b97/download/Clutchingshadow-ezgif.com-crop.gif" },
+            { "name": "Shadow Gun", "desc": "Ranged shadow shot.", "req": { "Shadowcast": 1 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b741a648277c53e238feb/download/Shadowgun-ezgif.com-crop.gif" },
+            { "name": "shadoww gun (blast spark)", "desc": "ceros.", "req": { "Shadowcast": 1 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264472876945623/RobloxStudioBeta_YpGxwdg0W0.gif?ex=69492e30&is=6947dcb0&hm=91184210793bbef4e3183f9bde0f783c8fcc9e4a27a80907754c74af524c266c&=&width=644&height=530" },
+            { "name": "Shadow Eruption", "desc": "Blast of shadow infused in your blade.", "req": { "Shadowcast": 20 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b748a8b2becfe84cd8ebb/download/Shadoweruption-ezgif.com-crop.gif" },
+            { "name": "Encircle", "desc": "crit movestack autoaim move", "req": { "Shadowcast": 20 }, "gif": "https://media.discordapp.net/attachments/1452799462723420192/1453072354665169087/Roblox_2025-12-23_17-45-25-ezgif.com-video-to-gif-converter.gif?ex=694c1e96&is=694acd16&hm=22ed4ce2fc08fbf94f73c3090d4ca77f4c6381e253f2a0a932e14c03ba74094b&=&width=1000&height=698" },
+            { "name": "Shadow roar", "desc": "free crowd heals", "req": { "Shadowcast": 20 }, "gif": "https://media.discordapp.net/attachments/1452799462723420192/1453072355084468225/06628a4c-fe79-4072-8eca-3f87f0303629-ezgif.com-video-to-gif-converter.gif?ex=694c1e96&is=694acd16&hm=5b556420b150914611509ce5f2c1ada36cc82a9ba124b0d20bd834c344c5f435&=&width=868&height=445" },
+            { "name": "Shadow Seekers", "desc": "Homing shadow orbs.", "req": { "Shadowcast": 20 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74adf39873020a782b60/download/Shadowseekers-ezgif.com-crop.gif" },
+            { "name": "Shadow Flux", "desc": "Surrounding aura of darkness.", "req": { "Shadowcast": 20 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74d8ecb525ad102126f6/download/shadowflux-ezgif.com-crop.gif" },
+            { "name": "Shadow Assault", "desc": "Dashing shadow attack.", "req": { "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b756d3404d8b417ed1c09/download/shadowassault-ezgif.com-crop.gif" },
+            { "name": "Shade Wisp", "desc": "Dark companion.", "req": { "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b75806c325f19b8a9eba8/download/shadewisp-ezgif.com-crop.gif" },
+            { "name": "Rising Shadow (Base)", "desc": "rising flame enemy.", "req": { "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b744b06a079f6bd42f480/download/Risingshadow-ezgif.com-crop.gif" },
+            { "name": "Rising Shadow (Blast Spark)", "desc": "Keeps targets stuck on ground, steals ether.", "req": { "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/6929cc4a4e16d041898da6c7/download/risingshadowblastspark-ezgif.com-crop.gif" },
+            { "name": "Eclipse Kick", "desc": "Brutal shadow kick.", "req": { "Shadowcast": 50, "Strength": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b753137b96f5a213c227a/download/Eclipse_Kick-ezgif.com-optimize.gif" },
+            { "name": "Shade Bringer", "desc": "Massive shadow slash.", "req": { "Shadowcast": 50 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74f91d950922f160376e/download/shadebringer-ezgif.com-crop.gif" },
+            { "name": "shadow meteors", "desc": "3 shadow meteors.", "req": { "Shadowcast": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263696108749002/RobloxStudioBeta_3bLvt6kYSn.gif?ex=69492d76&is=6947dbf6&hm=f878ddd667b1cabb2dd82b2a2391b2bd68bb60d291ad554ac79217f847919ae5&=&width=820&height=571" },
+            { "name": "umbral slash", "desc": "Very basic shadow-infused slash", "req": { "Shadowcast": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263808042012733/RobloxStudioBeta_zZcfYb1rAR.gif?ex=69492d91&is=6947dc11&hm=d59004d8f24af7134a8ae3ca5a7c15dd646521cabef33b9593ac57b5f622c49b&=&width=716&height=560" },
+        ],
+        "Ironsing": [
+            { "name": "Metal Slash", "desc": "Basic iron slashes.", "req": { "Ironsing": 1 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b762ae39b6fef749afca9/download/Metal_Slash-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Metal Kick", "desc": "Spring Spark variant available. dm me or ping me if u got the gif", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b76f7517ef4ed2d73e96e/download/metalkick-ezgif.com-crop.gif" },
+            { "name": "Caltrops", "desc": "Deploy spike traps.(fuckass mantra)", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b771568111857c62ed65c/download/caltrops-ezgif.com-crop.gif" },
+            { "name": "Metal Fakeout", "desc": "Iron backshots.", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b769eadadb60bfd220e1f/download/Metal_fakeout-ezgif.com-crop.gif" },
+            { "name": "Metal Ball", "desc": "Launch yourself as an iron sphere.", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b76cc782e4d10bc843ad6/download/metalball-ezgif.com-crop.gif" },
+            { "name": "Iron Quills", "desc": "Burst of metal spikes.", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b77368345ecfd1319d75d/download/ironquills-ezgif.com-crop.gif" },
+            { "name": "Oxidizing Rush", "desc": "Fast metallic charge.", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b777746294d80bc31f932/download/Oxidizingrush-ezgif.com-crop.gif" },
+            { "name": "Metal Wisp", "desc": "Iron companion.", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b78bc9ec33a556e1054b9/download/metalwisp-ezgif.com-crop.gif" },
+            { "name": "Rocket Lance", "desc": "Metal piercing combo extender.", "req": { "Ironsing": 20 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b7874850e609e878fdb64/download/Rocketlance-ezgif.com-crop.gif" },
+            { "name": "Metal Gatling", "desc": "Barrage of iron.", "req": { "Ironsing": 50 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b7898367de76073911258/download/metalgatling-ezgif.com-crop.gif" },
+            { "name": "Iron Hug", "desc": "his hugs are kinda ironic.", "req": { "Ironsing": 50 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b779a1c4308fe4bed6306/download/ironhug-ezgif.com-crop.gif" },
+            { "name": "Iron Slam", "desc": "Massive iron slam.", "req": { "Ironsing": 50 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b77da60c25f4c6a03fc75/download/ironslam-ezgif.com-crop.gif" },
+            { "name": "Metal Armament", "desc": "Coats your weapon in iron.", "req": { "Ironsing": 50 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b785b1ecb57036edac0b3/download/Metalarmament-ezgif.com-crop.gif" }
+        ],
+        "Bloodrend": [
+            { "name": "Blood Orb", "desc": "Multiplying Spark available. dm me or ping me if u got the gif", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b78f70cca666299feab00/download/bloodorb-ezgif.com-crop.gif" },
+            { "name": "Blood Beam", "desc": "choso aba move.", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7914b5c4c36300631619/download/bloodbeam-ezgif.com-crop.gif" },
+            { "name": "Blood Explosion", "desc": "dont use this shit.", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7931004fd802aa749121/download/bloodexplosion-ezgif.com-crop.gif" },
+            { "name": "Scarlet Cyclone", "desc": "blood tornado", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b794eeafb369e33db0522/download/scarletcyclone-ezgif.com-crop.gif" },
+            { "name": "multiplying spark scarlet cyclone", "desc": "3 tornados instead of one!.", "req": { "Bloodrend": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264071184257198/RobloxStudioBeta_tv0Vpqqk4p.gif?ex=694a7f50&is=69492dd0&hm=30e72658405bc0a547cb6144481a346e11467d20475e9e9f032aa6d346d349a6&=&width=646&height=576" },
+            { "name": "reversal spark scarlet cyclone", "desc": "the tornado noww comes back to you", "req": { "Bloodrend": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264295864733736/RobloxStudioBeta_U0vJuPcBDz.gif?ex=694a7f85&is=69492e05&hm=f26d4192b5257fbe46f30cf8f52f7a2311590908b34996b5e3bb63c033080b5d&=&width=493&height=514" },
+            { "name": "Bloodedge", "desc": "Blade of hardened blood. Works like gale lunge", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b796a69f256eaca966789/download/bloodedge-ezgif.com-crop.gif" },
+            { "name": "Vicious Descent", "desc": "Dropping strike from above.", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b798a347720f0882b8b81/download/visciousdescent-ezgif.com-crop.gif" },
+            { "name": "Exorcism", "desc": "Purging blood blast.", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b799b81a2973c71abcfe3/download/exorcism-ezgif.com-crop.gif" },
+            { "name": "Blood Eruption", "desc": "3 blood explosions fused together.", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b79d9eafa8197f4d2b1c9/download/blooderuption-ezgif.com-crop.gif" },
+            { "name": "Crimson Rain", "desc": "Summon alot of blood daggers. Cast the mantra again to recall them", "req": { "Bloodrend": 30 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7a0d96df60907c528db2/download/crimsonrain-ezgif.com-crop.gif" },
+            { "name": "Blood Crucifixion", "desc": "dark vader move.", "req": { "Bloodrend": 30 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7a287f6d3b402f428ccb/download/Bloodcrucifixion-ezgif.com-crop.gif" },
+            { "name": "Blood Wisp", "desc": "Blood companion.", "req": { "Bloodrend": 30 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7a4c1102749323a7611a/download/bloodwisp-ezgif.com-crop.gif" },
+            { "name": "Razor Blitz", "desc": "he tryna be rising flame.", "req": { "Bloodrend": 30 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7a62dd13b3b4de6837f6/download/razorblitz-ezgif.com-crop.gif" },
+            { "name": "Artery Rip", "desc": "Devastating close range rip.", "req": { "Bloodrend": 50 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7a8b4232ae16780f9127/download/arteryrip-ezgif.com-crop.gif" }
+        ],
+        "Earthbend": [
+            { "name": "Earth Block", "desc": "Two-hit move.", "req": { "Earthbend": 1 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7bee3be8ecfab9341cbd/download/earthblockrange-ezgif.com-crop.gif" },
+            { "name": "Earth Pillars", "desc": "Throw pillar of rocks at ppl, peak right?", "req": { "Earthbend": 1 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7c15b6188ee2f6f6f079/download/earthpillars-ezgif.com-crop.gif" },
+            { "name": "Shatter Throw", "desc": "Throw only two rocks.", "req": { "Earthbend": 20 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7c4796ba56d41514585d/download/shatterthrow-ezgif.com-crop.gif" },
+            { "name": "Crushing Slam", "desc": "Heavy rock slam.", "req": { "Earthbend": 30 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7c6a23973f37f1366ad7/download/crushingslam-ezgif.com-crop.gif" },
+            { "name": "Pillar Barrage", "desc": "Continuous earth pillar barrages.", "req": { "Earthbend": 30 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7c94fc3b70c74fa709ff/download/Pillar_Barrage-ezgif.com-crop.gif" },
+            { "name": "Rocker Punch", "desc": "Earth-infused punch.", "req": { "Earthbend": 30 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7cb85caa0547a2614c6a/download/rockerpunch-ezgif.com-crop.gif" },
+            { "name": "Elbow Strike", "desc": "Ex-strike ripoff.", "req": { "Earthbend": 30 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7cd06e4e9603f7dc5416/download/elbowstrike-ezgif.com-crop.gif" },
+            { "name": "Compress", "desc": "gb ppl with two walls", "req": { "Earthbend": 50 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7cc9ce5d51236520103e/download/compress-ezgif.com-crop.gif" },
+            { "name": "Rock Flow", "desc": "Moving earth wave. works like gale lunge", "req": { "Earthbend": 50 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7ceba2334ac1b9b2cd13/download/rockflow-ezgif.com-crop.gif" },
+            { "name": "Hard Impact", "desc": "battleground ahhh mantra", "req": { "Earthbend": 50 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/69497e3787c40bc6314c35c3/download/Earthbend_Rock_Lee_(Hard_Impact).gif" },
+            { "name": "Formation", "desc": "Create homing pillars that deals too much dmg", "req": { "Earthbend": 50 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/69497e39007d5a320d690e05/download/Earthbend_Formation.gif" }
+        ],
+        "Hybrid Mantras": [
+            { "name": "Vivisect", "desc": "Blood and shadow fusion.", "req": { "Bloodrend": 50, "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/691b7d11431876c5b273c5db/attachments/691b7d221275122b130e9b4d/download/vivisect-ezgif.com-crop.gif" },
+            { "name": "Soul Beam", "desc": "Requires Oathless. Fusion of all elements.", "req": { "Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264665038983168/RobloxStudioBeta_RogMqjruF7.gif?ex=69492e5d&is=6947dcdd&hm=becd7b4f0d3c40e768f338dd09427ffb2c80864575d911a7d2fba84723714b16&=&width=429&height=500" }
+        ],
+        "Attunementless": [
+            { "name": "prominence draw", "desc": "another gap closer slop mantra", "req": { "Medium Weapon": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1453041365741998250/RobloxStudioBeta_XsLoxIxoI9.gif?ex=694c01b9&is=694ab039&hm=46513aec82235cf161cca39ff9b4eed7572ce23e9f8025e873245bdd78ca07c4&=&width=544&height=516" },
+            { "name": "Breeze Blitz", "desc": "Extends with that one Talent.", "req": { "Light Weapon": 40 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/691b7fb66ed634af015422ae/download/breezeextend-ezgif.com-crop.gif" },
+            { "name": "Strong Left", "desc": "one punch man mantra", "req": { "Strength": 10 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692737b491d651bff4802647/download/300px-Strong_left_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Rapid Punches", "desc": "barrage of punchs", "req": { "Strength": 30 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692737a63ade2bf1d6c7e893/download/300px-Rapid_punches_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Skyshatter Kick", "desc": "two gb kicks that AT LEAST deal a bar", "req": { "Strength": 80 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/6927379fc1db12a2630360a6/download/300px-Skyshatter_Kick_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Precise Slashes", "desc": "Dashing barrage of slashes.", "req": { "Precision": 20 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692737e072ad98da9cfd1591/download/300px-Precise_slashes_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Controlled Punch", "desc": "Focused strike that moves you forward.", "req": { "Precision": 20 }, "gif": "https://trello.com/1/cards/6929bbdbf90a3014494e1169/download/2025-11-2810-05-02-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Shoulder Bash", "desc": "Charging bash.", "req": { "Fortitude": 20 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692738043806879911e152df/download/300px-Shoulder_bash_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Reinforce", "desc": "Stat buff + free heal.", "req": { "Fortitude": 50 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273806176d8f57629165ba/download/300px-Reinforce_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Revenge", "desc": "top 3 mantras", "req": { "Agility": 1 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692738443c466c12d2a02d3b/download/Revenge_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Adrenaline Surge", "desc": "Increases Movement Speed + swingspeed if you have that one talent.", "req": { "Agility": 20 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273d9bbfa287da4af2656f/download/2025-11-2612-47-48-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Dash", "desc": "dash.", "req": { "Agility": 40 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273853d19087346402c5e8/download/300px-Dash_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Shadestep", "desc": "cooler dash.", "req": { "Agility": 60 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/6927385f52fbed3237fd6d86/download/300px-Shadestep_Attunmentless___Deepwoken_Arena_Wiki.gif" },
+            { "name": "Ambush", "desc": "Sneaky attack.", "req": { "Light Weapon": 60 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/6929bb18d3745fd64c37cc1f/download/2025-11-2810-04-43-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Prediction", "desc": "Engi's favorite mantra.", "req": { "Intelligence": 50 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273c719db6bd932a20517c/download/Prediction-ezgif.com-crop.gif" },
+            { "name": "Exhaustion Strike", "desc": "best mantra oath.", "req": { "Willpower": 40 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273c8b899fefbb14665738/download/Exhaustion-ezgif.com-crop.gif" },
+            { "name": "Glare", "desc": "Intimidate targets (gives insanity to you for some fuckass reason).", "req": { "Willpower": 60 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273dff3c8f1cf7f0925558/download/2025-11-2612-49-40-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Lunatism", "desc": "Sets people to Max Insanity.", "req": { "Willpower": 100 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273e13474ba56e3cbdea9a/download/2025-11-2612-49-33-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Sing", "desc": "Charm ppl with your voice.", "req": { "Charisma": 25 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273caa6c8bb8e190ba194b/download/Sing-ezgif.com-crop.gif" },
+            { "name": "Taunt", "desc": "Increases DMG Dealt and Taken.", "req": { "Charisma": 25 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273cac82313121e2f36240/download/Taunt-ezgif.com-crop.gif" },
+            { "name": "Flashdraw Strike", "desc": "Swift weapon attack.", "req": { "Agility": 25, "Medium Weapon": 50 }, "gif": "https://trello.com/1/cards/691b7e1198f2c19343c7d07c/attachments/691b7ea5ad05f34cd4756dae/download/flashdraw-ezgif.com-crop.gif" },
+            { "name": "Air Rending", "desc": "Annoying tp move.", "req": { "Strength": 25, "Light Weapon": 40 }, "gif": "https://trello.com/1/cards/691b7e1198f2c19343c7d07c/attachments/691b7eb599b0ac7874b7c39a/download/Air_rending-ezgif.com-crop.gif" },
+            { "name": "Skyshatter Pierce", "desc": "High impact piercing (windup so slow).", "req": { "Strength": 30, "Precision": 50 }, "gif": "https://trello.com/1/cards/691b7e1198f2c19343c7d07c/attachments/691b7eb9b2a8170eedbeae9e/download/Skyshatter_Pierce-ezgif.com-crop.gif" },
+            { "name": "Twinstrikes", "desc": "basic double kicks.", "req": { "Agility": 40, "Strength": 60 }, "gif": "https://trello.com/1/cards/691b7e1198f2c19343c7d07c/attachments/6929bb75e2e60ae15a382243/download/2025-11-2810-05-15-ezgif.com-video-to-gif-converter.gif" }
+            ],
+            
+    }
+};
+
+const calcData = {
+    dmg: [
+        { n: "Flame Within", v: 10, cat: "UB_PB" },{ n: "Taunt", v: 15, cat:"UB_TB"}, { n: "Speed Demon", v: 7.5, cat: "WB_TB" }, { n: "Lose Your Mind", v: 10, cat: "UB_PB" }, { n: "Decisive Battle", v: 10, cat: "UB_TB" }, { n: "Perfect Flash", v: 25, cat: "MB_TB" }, { n: "Eureka", v: 10, cat: "MB_TB" }, { n: "Overflowing Dam", v: 10, cat: "WB_PB" }, { n: "Ardour Scream", v: 25, cat: "UB_TB" }, { n: "Underdog", v: 4, cat: "UB_PB" }, { n: "Tough Love", v: 10, cat: "UB_PB" }, { n: "Manipulator", v: 20, cat: "UB_PB" }, { n: "Matador", v: 20, cat: "UB_TB" }, { n: "Knife's Journey", v: 15, cat: "WB_TB" }, { n: "Rush Hours", v: 15, cat: "UB_PB" }, { n: "Reshape and Remold", v: 5, cat: "UB_PB" }, { n: "Exposed Durability", v: 10, cat: "UB_PB" }, { n: "Reinforce Mantra", v: 3, cat: "UB_TB" }, { n: "Raiton Path", v: 10, cat: "UB_PB" }
+    ],
+    pen: [
+        { n: "Million Ton Piercer", v: 5 },{ n: "Master of His Craft", v:20 }, { n: "Dead Eye", v: 10 }, { n: "Upcoming Opportunity", v: 30 }, { n: "Cheap Shot", v: 10 }, { n: "Ether Overdrive", v: 5 }, { n: "Piercing Will", v: 15 }, { n: "Cult of Personality", v: 15 }, { n: "Sturdy Control", v: 15 }, { n: "Tooth and Claw", v: 20 }, { n: "Dancing With The Dead", v: 2.5 }
+    ]
+};
+
+// --- 2. GLOBAL STATE & MAPS ---
+let userStats = {};
+let userTraits = { "Vitality": 0, "Erudition": 0, "Proficiency": 0, "Songchant": 0 };
+let selectedOath = "";
+let selectedTalents = new Set();
+let selectedMantras = new Set();
+let activeBuffs = new Set();
+let collapsedCats = new Set();
+let currentTab = 'talents';
+let selectedWeapon = null;
+let selectedEnchant = "no enchant";
+
+
+// Short-link mapping setup
+const JSONBIN_KEY = '$2a$10$sLrFF.ABoJcUYrK2Ps8lxusDVHHm.E00yjgfvttWumaj34EYr61qy'; // Replace with your key
+const JSONBIN_BIN_ID = '';
+const talentList = Object.values(gameData.talents).flat();
+const mantraList = Object.values(gameData.mantras).flat();
+const talentMap = talentList.map(t => t.name);
+const mantraMap = mantraList.map(m => m.name);
+const allStatKeys = [...gameData.attributes, ...gameData.attunements];
+const weaponMap = gameData.weapons.map(w => w.name);
+const enchantMap = gameData.enchants;
+const statShorthand = {
+    "str": "Strength", "fort": "Fortitude", "agi": "Agility", "int": "Intelligence", 
+    "will": "Willpower", "cha": "Charisma", "pre": "Precision", "light": "Light Weapon", 
+    "med": "Medium Weapon", "heavy": "Heavy Weapon", "flame": "Flamecharm", 
+    "frost": "Frostdraw", "thunder": "Thundercall", "shadow": "Shadowcast", 
+    "gale": "Galebreathe", "iron": "Ironsing", "blood": "Bloodrend", "earth": "Earthbend"
+};
+
+const mutualExclusions = [
+    ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
+    ["Unyielding Frost", "Glass Path: Crystallization"],
+    ["The Final Act", "Emperor Flame", "Eruption Path: Lava Serpent"],
+    ["Gilded Path: Scrapsinger", "Decay Path: Oxidize"],
+    ["Manipulation Path: Spirit Lantern", "Manipulation Path: Agile Misery", "Simple Manipulation: Unstable Blood"],
+    ["Wraith Path: Umbra", "Eruption Path: Lava Serpent", "Flashboil"],
+    ["Flashboil", "Glass Path: Crystallization"],
+    ["Narcissist", "Tough Love"]
+];
+
+// --- 3. INITIALIZATION ---
+function init() {
+    const splash = [
+  "hold it, this guy is cooking",
+  "time for a shower twin",
+  "DNI deepwoken classic",
+  "Yzord NPC gives spec enchants and weps. however, you need to be whitelisted",
+  "?timeout @nebula 27d ramadan",
+  "FUCK MY LIFE NIGGA IM JUST A RETARD INCEL WHORE",
+  "fart fart fart fart fart",
+  "ping geo for prime kai theme",
+  "bugs? dm or ping @faithandpray",
+  "take a break",
+  "im a fat greasy pig",
+  "TEST EVERYTHING FOR ME PLEASE IM BEGGING YOU",
+  "ping @lz4decompress in general chat he loves it",
+  "never ask a man his salary, a woman her weight or mon his build",
+  "I USE GALE IM A CUCKY DRONE AND I LOVE THE IDF",
+  "why don’t fish play basketball? they’re afraid of the net.",
+  "what do you call a fish that practices medicine? a sturgeon.",
+  "why did the fish blush? because it saw the ocean’s bottom.",
+  "how do fish get to school? on the octobus.",
+  "what’s a fish’s favorite instrument? the bass guitar.",
+  "why don’t fish like computers? they’re scared of the net.",
+  "what did the fish say when it hit a concrete wall? dam!",
+  "why was the fish bad at tennis? he kept getting caught in the net.",
+  "what do you call a fish wearing a bowtie? sofishticated.",
+  "why did the fish get kicked out of school? he was caught with seaweed.",
+  "what’s a fish’s favorite movie? the codfather.",
+  "how do shellfish get to the hospital? in a clambulance.",
+  "why don’t fish do well on tests? they’re always swimming below sea level.",
+  "what do fish take to stay healthy? vitamin sea.",
+  "why was the fish arrested? for fin-slapping someone.",
+  "what’s a fish’s favorite country? finland.",
+  "why are fish so smart? because they swim in schools.",
+  "what did the fish say when it swam into a wall? dam!",
+  "how do fish stay in touch? they drop each other a line.",
+  "why don’t fish use social media? they don’t want to get caught in the net.",
+  "what do you call a lazy crayfish? a slobster.",
+  "why did the fish start a band? he had the scales.",
+  "what’s a fish’s favorite karaoke song? “don’t stop beleiving” by journey… but mostly the bass line.",
+  "why was the fish always calm? he just went with the flow.",
+  "what do you call a fish magician? a magic carp.",
+  "why don’t fish play soccer? they’re afraid of the net.",
+  "what did the sardine say to the submarine? you’re krilling me!",
+  "why did the vegan go fishing? just for the halibut.",
+  "what’s the richest fish in the sea? a goldfish.",
+  "how do fish pay for things? with sand dollars.",
+  "why was the fish so good at basketball? he was a great shooter… until he got caught in the net.",
+  "what do you call a fish with no eyes? fsh.",
+  "why did the fish cross the road? to get to the other tide.",
+  "what’s a fish’s favorite tv show? tuna half men.",
+  "why don’t fish drive? they’d get caught in the carpool lane.",
+  "what do you call a dangerous fish that drinks too much? a beeracuda.",
+  "why was the octopus laughing? because the sea weed.",
+  "what did one fish say to the other during a race? keep your fins crossed!",
+  "why don’t fish like fast food? they can’t catch it.",
+  "what’s a shark’s favorite game? swallow the leader.",
+  "why did the fish go to hollywood? he wanted to be a starfish.",
+  "what do fish use to text? shell phones.",
+  "why are fish so bad at lying? you can see right through them.",
+  "what’s a fish’s favorite pickup line? hey girl, are you a net? because i’m caught up in you.",
+  "why did the fish join the circus? he wanted to be a clownfish.",
+  "what do you call a fish that destroys cities? cod-zilla.",
+  "why don’t fish ever get lost? they follow the current events.",
+  "what’s a fish’s favorite type of music? something with a good beat… per minute.",
+  "why did the fisherman go broke? he lost his net income.",
+  "what did the fish say when it got complimented? aw, shucks… thanks for the flounder!",
+  "where do fish keep their money? in the riverbank.",
+  "why are fish so easy to weigh? they have their own scales.",
+  "what do you call a fish with no eyes? fsh.",
+  "how do you make an octopus laugh? with ten-tickles.",
+  "what kind of music do fish listen to? something with a good tuna.",
+  "why did the fish get bad grades? it was below sea level.",
+  "what’s a fish’s favorite game show? name that tuna!",
+  "why don’t fish pass exams? they work below c-level.",
+  "what do you call a fish that knows addition? a calculator.",
+  "why did the whale cross the road? to get to the other tide.",
+  "what do you call a fancy fish? so-fish-ticated.",
+  "where do fish sleep? on a waterbed.",
+  "what’s a shark’s favorite bible story? jonah, because he only had one worm.",
+  "why do fish live in saltwater? pepper makes them sneeze.",
+  "what do you call a fish with two knees? a two-knee fish.",
+  "how does a fish go into business? they start on a small scale.",
+  "what’s the difference between a piano and a fish? you can tune a piano, but you can’t tuna fish.",
+  "why was the fish always broke? its net income was low.",
+  "what do you call a fish that delivers presents? santa claws.",
+  "why did the fish go to the bank? to get some fin-ancing.",
+  "what’s a fish’s favorite religious poem? cod is love, cod is life.",
+  "how do fish greet each other? they wave fins.",
+  "what do you call a fish who’s always lying? a catfish.",
+  "why don’t fish like stairs? they’re afraid of the net step.",
+  "what did the shark say after eating a clownfish? that tasted a bit funny.",
+  "where do fish go to borrow money? the prawn broker.",
+  "what’s a fish’s favorite vegetable? a sea-n.",
+  "why was the sand wet? the sea weed.",
+  "what do you call a fish in a spaceship? an astronaut-fish.",
+  "how do fish celebrate halloween? trick or trout!",
+  "what’s a fish’s favorite beatles song? let it be-atle.",
+  "why did the fish write a book? it had a great tale.",
+  "what do you call a cold fish? a chili dogfish.",
+  "why don’t fish play cards? too many cheetahs (creatures).",
+  "what did the fish say to the clam? pearl harbor your feelings.",
+  "how do you know if a fish is lying? you see right through it.",
+  "what’s a fish’s favorite crime show? law and odor.",
+  "why did the fish go to art school? to improve its draw-fish.",
+  "what do you call a fish army? a school of hard knocks.",
+  "why was the eel always calm? it went with the flow.",
+  "what’s a fish’s favorite candy? swedish fish, duh.",
+  "how do fish end arguments? they just swim away.",
+  "what do you call a psychic fish? a mind-fish.",
+  "why did the fish quit the band? it couldn’t find its sole.",
+  "what’s the loch ness monster’s favorite food? fish and ships.",
+  "why don’t fish ever share? they’re shellfish.",
+  "what do you call a fish that’s good at basketball? a slam-dunkfish.",
+  "how do fish watch movies? on the big stream.",
+  "what’s a fish’s favorite dance? the trout-dle.",
+  "why did the fish go broke? it blew all its sand dollars at the casino.",
+  "press f2, data Yabbqr firstname Fishboy,",
+  "press f2, data Yabbqr lastname The Truest Fish",
+  "hey, add the mlm flag as a leaderboard colour -fishboy",
+  "you think this funny i will report no joke",
+  "those who 🤣🤣🤣👀👀",
+  "whats wrong with you? are you disrespecting the great fish lineage?",
+  "promoted by Fishy Business [TRADEMARKED]",
+  "hi coded",
+  "added new sancho move",
+  "LIVE LAUGH LOVE FISH",
+  "fish are friends not food",
+  "quote me on that",
+  "fishy business is the best business",
+  "real fish eat real fish",
+  "stay fishy my friends -fishboy",
+  "all hail fishboy the truest fish",
+  "fishy business is here to stay",
+  "did a friced really fry this friced? -vergil",
+  "theyre watching us",
+  "stay safe out there",
+  "i can feel them watching me",
+  "the fish are coming",
+  "trust no one",
+  "the fish are real",
+  "beware the fish",
+  "i can hear them whispering",
+  "they're everywhere",
+  "embrace the fish",
+  "follow the fish",
+  "the fish will set you free",
+  "don't fight the fish",
+  "the fish know all",
+  "the fish are wise",
+  "listen to the fish",
+  "the fish will guide you",
+  "the fish are watching",
+  "the fish are waiting",
+  "the fish are hungry",
+  "the fish are coming for you",
+  "the fish will find you",
+  "the fish will protect you",
+  "the fish will save you",
+  "the fish will love you",
+  "the fish will embrace you",
+  "the fish will free you",
+  "the fish will enlighten you",
+  "the fish will awaken you",
+  "the fish will transform you",
+  "the fish will heal you",
+  "the fish will empower you",
+  "the fish will inspire you",
+  "the fish will uplift you",
+  "the fish will enlighten your path",
+  "the fish will light your way",
+  "the fish will show you the truth",
+  "the fish will reveal all",
+  "the fish will change everything",
+  "the only oath i swear is the fish oath",
+  "fish are the true rulers of the world",
+  "fish will inherit the earth",
+  "fish are the ultimate beings",
+  "fish are the future",
+  "fish are the past, present, and future",
+  "fish are the answer to everything",
+  "fish are the meaning of life",
+  "fish are the key to happiness",
+  "fish are the source of all knowledge",
+  "the fish are stronger than you think",
+  "the fish are more powerful than you know",
+  "the fish are the ultimate force",
+  "the fish are the true masters",
+  "the fish are the supreme beings",
+  "the fish are the ultimate rulers",
+  "the fish are the true gods",
+  "shaboingboing - vergil",
+  "fishy business is the way to go - fishboy",
+  "fishboy is love fishboy is life",
+  "the snow will shatter - fishboy",
+  "embrace the tide - fishboy",
+  "let the waves guide you - fishboy",
+  "swim with the current - fishboy",
+  "everything fishboy says is true -naturallycoded",
+  "everything fishboy does is for the greater good -naturallycoded",
+  "fishboy knows best -naturallycoded",
+  "follow fishboy's wisdom -naturallycoded",
+  "trust in fishboy's vision -naturallycoded",
+  "fishboy is the light in the darkness -naturallycoded",
+  "fishboy will lead us to greatness -naturallycoded",
+  "fishboy is the savior we need -naturallycoded",
+  "the fish will rise again - fishboy",
+  "fishboy forever - fishboy",
+  "fishboy never lies - fishboy",
+  "everything will be alright with fishboy - fishboy",
+  "xoxo fishboy - fishboy",
+  "if you know then you know if you dont then you dont-naturallycoded",
+  "errorHandler: exception found - errors.shop.naturallycoded.buyMessage.PleaseHELP ME NOW SlenderMan is Coming for me HeFortnite Battlepass new -naturallycoded",
+   "naturallycoded is fishboy in disguise - vergil",
+   "#revengeseekerz",
+   "the fish will rise - fishboy",
+   "car seat headrest - fishboy",
+   "swagderp",
+   "theyre coming for us",
+   "stay vigilant",
+   "report traitors to fishboy",
+   "trust no one but fishboy",
+   "prod.greentop",
+   "DontGet2Close",
+   "AfflictedDay1(trustt)",
+   "the art of losing",
+   "stay woke",
+   "Oh, Love Liar",
+   "check out fyoum btw - naturallycoded",
+   "the world is yours",
+   "WhyUMakinSongs.NobodyWants2Hear",
+   "keep swimming",
+   "if u wanna be good at deepwoken modded. press the f key -naturallycoded",
+   "lynch the nonbelievers - fishboy",
+   "LynU.",
+   "Lyn.",
+   "Make sure your internet isnt busted, and try again in 5 minutes.",
+   "1 in 400,000,000.",
+   "tough luck huh? -fishboy",  
+   "everything happens for a reason -fishboy",
+   "nonbelievers will be punished -fishboy",
+   "the fish will have their revenge -fishboy",
+   "fishboy is watching you -fishboy",
+    "the fish will find you -fishboy",
+    "embrace the fish -fishboy",
+    "the fish will set you free -fishboy",
+    "follow the fish -fishboy",
+    "trust in fishboy -fishboy",
+    "the fish will guide you -fishboy",
+    "believers are the chosen ones -fishboy",
+    "the fish will protect you -fishboy",
+    "the prophets of fishboy shall lead us -fishboy",
+    "added new fishboy quote -naturallycoded",
+    "naturallycoded x fishboy forever - vergil",
+    "naturallycoded x fishboy gay marriage confirmed - vergil",
+    "fishboy is my spirit animal - vergil",
+    "gay fish unite - vergil",
+    "report nonbelievers to fishboy - vergil",
+    "down with the nonbelievers - vergil",
+    "fishboy for president - vergil",
+    "convert or be cast into the sea - vergil",
+    "yeah they have to be gay dude - me",
+    "geometry dash is.. something man -fishboy",
+    "never ask a fish its weight -fishboy",
+    "fishboy is love fishboy is life -naturallycoded",
+    "live laugh love tiramisu - katie",
+    "ooo you want to make a gale build.... - katie",
+    "i dont really like friced, but i love fishboy - mustard",
+    "mustard x rendbreaker - fishboy",
+    "fishboy is my homeboy - mustard",
+    "mustard is my homeboy - fishboy",
+    "mustard is the first supporter of the fishes grace - fishboy",
+    "fishboy is pretty cool - mustard",
+    "mustard x iron requiem - fishboy",
+    "mustard will forever be in the fishes grace - fishboy",
+    "This is a joe btw",
+    "someone please ping @geomatsuu with gif of a shower"
+];
+    const splashEl = document.getElementById('splash-text');
+    if(splashEl) splashEl.innerText = splash[Math.floor(Math.random() * splash.length)];
+
+    const core = document.getElementById('core-inputs');
+    const att = document.getElementById('att-inputs');
+    if(core) core.innerHTML = ""; 
+    if(att) att.innerHTML = "";
+
+    gameData.attributes.forEach(a => {
+    userStats[a] = 0;
+    core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" oninput="setStat('${a}', this.value)"></div>`;
+});
+
+    gameData.attunements.forEach(a => {
+    userStats[a] = 0;
+    att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" oninput="setStat('${a}', this.value)"></div>`;
+});
+
+    // Parse URL
+    const params = new URLSearchParams(window.location.search);
+    
+    // 1. Load Themes (from previous step)
+    loadSavedTheme();
+
+    // 2. Load Build (Short or Long)
+    if (params.has('id')) {
+        const binId = params.get('id');
+        fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+            headers: { 'X-Master-Key': JSONBIN_KEY }
+        })
+        .then(res => res.json())
+        .then(data => {
+            loadBuildFromString(data.record.build);
+        })
+        .catch(err => console.error("Error loading short build:", err));
+    } 
+    else if (params.has('b')) {
+        loadBuildFromString(params.get('b'));
+    }
+    updateUI();
+    loadSavedTheme();
+}
+function loadBuildFromString(code) {
+    try {
+        const sections = code.split('_');
+        
+        // 1. Stats
+        if (sections[0]) {
+            const statsArr = sections[0].split('.');
+            allStatKeys.forEach((key, i) => {
+                let val = parseInt(statsArr[i]) || 0;
+                userStats[key] = val;
+                if (document.getElementById('in-' + key)) document.getElementById('in-' + key).value = val;
+            });
+        }
+        // 2. Talents
+        if (sections[1]) {
+            sections[1].split('-').forEach(b36 => {
+                let name = talentMap[parseInt(b36, 36)];
+                if (name) selectedTalents.add(name);
+            });
+        }
+        // 3. Mantras
+        if (sections[2]) {
+            sections[2].split('-').forEach(b36 => {
+                let name = mantraMap[parseInt(b36, 36)];
+                if (name) selectedMantras.add(name);
+            });
+        }
+        // 4. Traits
+        if (sections[3]) {
+            const tVals = sections[3].split('.');
+            const tKeys = Object.keys(userTraits);
+            tVals.forEach((v, i) => {
+                let n = parseInt(v) || 0;
+                userTraits[tKeys[i]] = n;
+                if (document.getElementById('trait-' + tKeys[i])) document.getElementById('trait-' + tKeys[i]).value = n;
+            });
+            let total = Object.values(userTraits).reduce((a, b) => a + b, 0);
+            document.getElementById('trait-sum').innerText = total;
+        }
+        // 5. Oath
+        if (sections[4]) {
+            selectedOath = sections[4];
+            document.getElementById('oath-select').value = selectedOath;
+        }
+        // 6. Weapon 
+        if (sections[5] && sections[5] !== "x") {
+            const wIdx = parseInt(sections[5], 36);
+            selectedWeapon = gameData.weapons[wIdx];
+        }
+        // 7. Enchant 
+        if (sections[6] && sections[6] !== "x") {
+            const eIdx = parseInt(sections[6], 36);
+            selectedEnchant = gameData.enchants[eIdx];
+        }
+        // 8. Buffs/Pen 
+        if (sections[7]) {
+            activeBuffs = new Set(sections[7].split('.').filter(x => x));
+        }
+
+        updateUI();
+    } catch (e) { console.error("Load Error", e); }
+}
+// --- 4. LOGIC ---
+function setTrait(trait, val) {
+    let n = parseInt(val) || 0;
+    let sumOthers = Object.keys(userTraits).reduce((acc, key) => {
+        return key === trait ? acc : acc + userTraits[key];
+    }, 0);
+
+    if (n < 0) n = 0;
+    if (n > 6) n = 6;
+    if (sumOthers + n > 12) n = 12 - sumOthers;
+
+    userTraits[trait] = n;
+    document.getElementById('trait-' + trait).value = n;
+    document.getElementById('trait-sum').innerText = sumOthers + n;
+    updateUI();
+}
+
+function setOath(val) {
+    selectedOath = val;
+    updateUI();
+}
+function setStat(name, val) {
+    let num = parseInt(val);
+    if (isNaN(num)) num = 0;
+    
+    // Clamp between 0 and 100
+    let clamped = Math.min(100, Math.max(0, num));
+    userStats[name] = clamped;
+
+    // Only force the input box value if the user tried to go over 100 or under 0
+    if (num !== clamped) {
+        document.getElementById('in-' + name).value = clamped;
+    }
+
+    updateUI();
+}
+
+function updateUI() {
+    let count = 0; 
+    gameData.attunements.forEach(a => { if (userStats[a] > 0) count++; });
+    let max = count === 0 ? 410 : 420 + Math.max(0, (count - 1) * 5);
+    let used = 0; 
+    Object.values(userStats).forEach(v => used += v);
+
+    document.getElementById('max-pts').innerText = max;
+    const usedPtsEl = document.getElementById('used-pts');
+    usedPtsEl.innerText = used;
+    usedPtsEl.style.color = used > max ? "#ff4444" : "#fff";
+    document.getElementById('talent-count').innerText = selectedTalents.size;
+
+    const list = document.getElementById('selection-list');
+    if(list) {
+        list.innerHTML = ""; 
+
+        // 1. OATH
+        if(selectedOath) {
+            list.innerHTML += `<div style="padding:10px; border-bottom:2px solid #000; font-weight:bold; color:var(--gold); font-size: 1.2rem; text-align:center;">${selectedOath.toUpperCase()}</div>`;
+        }
+
+        // 2. WEAPON & ENCHANT 
+        if(selectedWeapon) {
+            const { currentDmg } = getWeaponStats(selectedWeapon);
+            list.innerHTML += `
+                <div style="padding:15px; border-top:1px solid rgba(0,0,0,0.1); border-bottom:1px solid rgba(0,0,0,0.1); background: rgba(0,0,0,0.03); margin-bottom:10px;">
+                    <div style="font-weight:bold; color:var(--gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">EQUIPPED WEAPON</div>
+                    <div style="font-size:1.1rem; font-weight:bold; color:#000;">${selectedWeapon.name}</div>
+                    <div style="font-size:0.85rem; color:#555; font-style:italic;">Enchant: ${selectedEnchant || 'None'}</div>
+                    <div style="font-size:1.3rem; font-weight:bold; color:#8b0000; margin-top:5px;">${currentDmg} DMG</div>
+                </div>`;
+        }
+
+        // 3. TALENTS
+        if(selectedTalents.size > 0) {
+            list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold;">Talents (${selectedTalents.size})</div>`;
+            selectedTalents.forEach(t => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem;">• ${t}</div>`);
+        }
+
+        // 4. MANTRAS
+        if(selectedMantras.size > 0) {
+            list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold; color:#2266aa; margin-top:10px;">Mantras</div>`;
+            selectedMantras.forEach(m => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem; color:#2266aa;">• ${m}</div>`);
+        }
+    }
+    renderItems();
+}
+function checkReqs(reqObj) {
+    if (!reqObj || Object.keys(reqObj).length === 0) return true;
+
+    for (let r in reqObj) {
+        let reqValue = reqObj[r];
+        
+        // Weapon Logic
+        if (r === "OR_Weapon" || r === "Weapon") {
+            const val = Math.max(userStats["Light Weapon"]||0, userStats["Medium Weapon"]||0, userStats["Heavy Weapon"]||0);
+            if (val < reqValue) return false;
+        } 
+        // Attunement Logic
+        else if (r === "OR_Attunement" || r === "Elemental") {
+            const val = Math.max(...gameData.attunements.map(a => userStats[a]||0));
+            if (val < reqValue) return false;
+        }
+        // Shorthand Logic
+        else if (r === "Light") { if ((userStats["Light Weapon"]||0) < reqValue) return false; }
+        else if (r === "Medium") { if ((userStats["Medium Weapon"]||0) < reqValue) return false; }
+        else if (r === "Heavy") { if ((userStats["Heavy Weapon"]||0) < reqValue) return false; }
+        // Exact Stat Match (Willpower, Intelligence, Charisma, etc)
+        else {
+            if ((userStats[r] || 0) < reqValue) return false;
+        }
+    }
+    return true;
+}
+
+function toggleItem(name, met) {
+    if (!met) return; 
+
+    const set = currentTab === 'talents' ? selectedTalents : selectedMantras;
+
+    if (!set.has(name)) {
+        // Talent Cap Check
+        if (currentTab === 'talents' && selectedTalents.size >= 80) {
+            alert("You have reached the maximum of 80 talents!");
+            return;
+        }
+
+        // Mutual Exclusion Check
+        for (const group of mutualExclusions) {
+            if (group.includes(name)) {
+                for (const other of group) {
+                    if (other !== name && set.has(other)) {
+                        alert(`CONFLICT: You cannot have "${name}" while you have "${other}".`);
+                        return;
+                    }
+                }
+            }
+        }
+        set.add(name);
+    } else {
+        set.delete(name);
+    }
+
+    updateUI();
+}
+
+function renderItems() {
+    const container = document.getElementById('item-container');
+    if (!container) return;
+    if (currentTab === 'calc') { renderCalculator(); return; } 
+    if (currentTab === 'weapons') { renderWeapons(); return; }
+    if (currentTab === 'guide') { renderGuide(); return; }
+
+    let search = document.getElementById('search-input').value.toLowerCase().trim();
+    const showMet = document.getElementById('filter-reqs').checked;
+    const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
+    const selectedSet = currentTab === 'talents' ? selectedTalents : selectedMantras;
+
+    // Advanced Stat Filter Parser
+    let filterStat = null, filterOp = null, filterVal = null;
+    const match = search.match(/^([a-z]+)\s*([>=<])\s*(\d+)$/);
+    if (match) {
+        filterStat = statShorthand[match[1]] || null;
+        filterOp = match[2];
+        filterVal = parseInt(match[3]);
+    }
+
+    container.innerHTML = "";
+    for (let cat in dataSet) {
+        const isCollapsed = collapsedCats.has(cat);
+        let hasItems = false;
+        let catHtml = `<div class="category-block ${isCollapsed ? 'collapsed' : ''}"><div class="category-title" onclick="toggleCategory('${cat}')">${cat}</div><div class="grid">`;
+        
+        dataSet[cat].forEach((item, idx) => {
+            let met = checkReqs(item.req);
+            if (showMet && !met) return;
+
+            let matchesSearch = false;
+            if (filterStat) {
+                // Check if the talent has the requested stat in its requirements
+                let reqVal = item.req[filterStat] || 0;
+                if (filterOp === '>') matchesSearch = reqVal > filterVal;
+                else if (filterOp === '<') matchesSearch = reqVal < filterVal;
+                else if (filterOp === '=') matchesSearch = reqVal === filterVal;
+            } else {
+                matchesSearch = item.name.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search);
+            }
+
+            if (matchesSearch) {
+                
+                hasItems = true;
+                let safeId = cat.replace(/\s/g, '') + idx;
+                let escapedName = item.name.replace(/'/g, "\\'");
+                let reqFormatted = Object.entries(item.req).map(([k, v]) => {
+                    let label = k;
+                    if (k === "OR_Weapon" || k === "Weapon") label = "Any Weapon";
+                    if (k === "OR_Attunement" || k === "Elemental") label = "Any Attunement";
+                    return `${label}: ${v}`;
+                }).join(", ");
+
+                catHtml += `
+                    <div class="card ${met ? '' : 'locked'} ${selectedSet.has(item.name) ? 'selected' : ''}" 
+                         onclick="toggleItem('${escapedName}', ${met})">
+                        <h3>${item.name}</h3><p>${item.desc}</p><hr>
+                        <span class="req-text"><span style="color:#fff">Req:</span> ${reqFormatted || 'None'}</span>
+                        ${item.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Preview</button><div class="gif-container" id="gif-${safeId}"><img src="${item.gif}" loading="lazy"></div>` : ''}
+                    </div>`;
+            }
+        });
+        if (hasItems) container.innerHTML += catHtml + `</div></div>`;
+    }
+}
+function renderCalculator() {
+    const container = document.getElementById('item-container');
+    let html = `<div class="calc-wrapper"><div class="calc-row" style="border-bottom:2px solid #000; justify-content:center; text-transform:uppercase;">Stat Modifiers</div>`;
+    calcData.dmg.forEach((b, i) => {
+        html += `<div class="calc-row"><label for="d${i}">${b.n} <span>${b.v}% DMG</span></label><input type="checkbox" id="d${i}" ${activeBuffs.has('d'+i)?'checked':''} onchange="toggleBuff('d${i}')"></div>`;
+    });
+    html += `<div class="calc-row" style="margin-top:20px; border-bottom:2px solid #000; justify-content:center; text-transform:uppercase;">Penetration</div>`;
+    calcData.pen.forEach((b, i) => {
+        html += `<div class="calc-row"><label for="p${i}">${b.n} <span>${b.v}% PEN</span></label><input type="checkbox" id="p${i}" ${activeBuffs.has('p'+i)?'checked':''} onchange="toggleBuff('p${i}')"></div>`;
+    });
+
+    let wPct = 0, mPct = 0, pen = 0;
+    activeBuffs.forEach(key => {
+        let idx = parseInt(key.slice(1));
+        if(key[0]==='d') {
+            let b = calcData.dmg[idx];
+            if(b.cat.includes('UB') || b.cat.includes('WB')) wPct += b.v;
+            if(b.cat.includes('UB') || b.cat.includes('MB')) mPct += b.v;
+        } else pen += calcData.pen[idx].v;
+    });
+
+    const cap = (p) => {
+        let m = 1 + (p/100);
+        if(m > 1.25) m = 1.25 + (m-1.25)/2;
+        return Math.min(1.5, m).toFixed(3);
+    };
+
+    html += `<div class="calc-result-box">
+        <strong>Weapon Multiplier:</strong> ${cap(wPct)}x<br>
+        <strong>Mantra Multiplier:</strong> ${cap(mPct)}x<br>
+        <strong>Total Penetration:</strong> ${pen}%
+    </div></div>`;
+    container.innerHTML = html;
+}
+function renderGuide() {
+    const container = document.getElementById('item-container');
+    container.innerHTML = `
+        <div class="calc-wrapper" style="max-width: 800px; line-height: 1.6;">
+            <h1 style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px;">BUILDER HANDBOOK</h1>
+            
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000;">1. Advanced Stat Searching</h3>
+            <p>You can search for talents based on their requirements using shorthand commands. Type these into the search bar:</p>
+            <ul style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 5px; list-style: none;">
+                <li><code>fort=40</code> - Shows talents requiring exactly 40 Fortitude (like Exoskeleton).</li>
+                <li><code>str>50</code> - Shows all Strength talents requiring more than 50.</li>
+                <li><code>agi<25</code> - Shows low-requirement Agility talents.</li>
+            </ul>
+            <p><strong>Shorthands:</strong> str, fort, agi, int, will, cha, pre, light, med, heavy, flame, frost, thunder, shadow, gale, iron, blood, earth.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">2. Talent Limits</h3>
+            <p>The builder tracks your investment. You are limited to <strong>80 Talents</strong> total. If you reach the cap, the builder will prevent you from selecting more until you deselect one.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">3. Sharing Your Build</h3>
+            <p>Once your stats, talents, and mantras are selected, click the <strong>"SHARE BUILD LINK"</strong> button in the left sidebar. This copies a unique URL to your clipboard that you can send to others; it will load your exact build instantly.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
+            <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
+            
+            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"tung tung tung sahur. - vergil"</p>
+        </div>
+    `;
+}
+    function getWeaponStats(w) {
+    let totalScalingValue = 0;
+    let scalingText = [];
+    for (let stat in w.scaling) {
+        let userStatVal = userStats[stat] || 0;
+        totalScalingValue += (w.scaling[stat] * (userStatVal / 100));
+        scalingText.push(`${stat}: ${w.scaling[stat]}`);
+    }
+    let currentDmg = (w.base * (1 + (0.10425 * totalScalingValue))).toFixed(2);
+    return { currentDmg, scalingText };
+}
+
+function renderWeapons() {
+    const container = document.getElementById('item-container');
+    if (!gameData.enchants || !gameData.weapons) return;
+
+    
+    if (!document.getElementById('weapon-tab-layout')) {
+        container.innerHTML = `
+            <div id="weapon-tab-layout" class="calc-wrapper" style="max-width: 900px; background: #e8e7df; color: #1a1a1a;">
+                <h2 style="text-align:center; color: #000; margin-bottom: 20px;">Weapon Selection</h2>
+                
+                <div style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.1);">
+                    <input type="text" id="weapon-search" placeholder="Search weapons..." oninput="renderWeapons()" 
+                           style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #999; font-family: 'Lora';">
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <label style="font-size: 0.85rem; cursor: pointer; color: #333; font-weight: bold;">
+                            <input type="checkbox" id="weapon-filter-reqs" onchange="renderWeapons()"> Show things that fit Requirements
+                        </label>
+                        <label style="font-size: 0.85rem; cursor: pointer; color: #8b0000; font-weight: bold;">
+                            <input type="checkbox" id="weapon-filter-best" onchange="renderWeapons()"> Filter to Highest Damage per Stat
+                        </label>
+                    </div>
+                </div>
+
+                <div class="stat-row" style="margin-bottom: 20px;">
+                    <label style="color: #000; font-weight: bold;">Select Enchant:</label>
+                    <select id="enchant-select" onchange="selectEnchant(this.value)" style="width: 200px; background:#fff; color:#000; border: 1px solid #999; padding:5px; font-family:'Lora';">
+                        ${gameData.enchants.map(e => `<option value="${e}" ${selectedEnchant === e ? 'selected' : ''}>${e}</option>`).join('')}
+                    </select>
+                </div>
+
+                <!-- This is where the weapons will actually go -->
+                <div id="weapon-grid-results" class="grid"></div>
+            </div>`;
+    }
+
+    
+ let search = document.getElementById('weapon-search').value.toLowerCase();
+    let showMet = document.getElementById('weapon-filter-reqs').checked;
+    let showBestOnly = document.getElementById('weapon-filter-best').checked;
+    let grid = document.getElementById('weapon-grid-results');
+
+   
+    let champions = new Set();
+    for (let statKey in userStats) {
+        if (userStats[statKey] > 0) {
+            let topDmg = -1;
+            gameData.weapons.forEach(w => {
+                if (w.scaling[statKey]) {
+                    let { currentDmg } = getWeaponStats(w);
+                    let dmgNum = parseFloat(currentDmg);
+                    if (dmgNum > topDmg) topDmg = dmgNum;
+                }
+            });
+            if (topDmg > 0) {
+                gameData.weapons.forEach(w => {
+                    if (w.scaling[statKey]) {
+                        let { currentDmg } = getWeaponStats(w);
+                        let dmgNum = parseFloat(currentDmg);
+                        if (Math.abs(dmgNum - topDmg) < 0.01) champions.add(w.name);
+                    }
+                });
+            }
+        }
+    }
+
+
+    
+    let cardsHtml = "";
+    gameData.weapons.forEach(w => {
+        const { currentDmg, scalingText } = getWeaponStats(w);
+        let isChampion = champions.has(w.name);
+        
+        if (!w.name.toLowerCase().includes(search)) return;
+        if (showBestOnly && !isChampion) return;
+        
+        let meetsReq = true;
+        for (let statKey in w.scaling) {
+            if ((userStats[statKey] || 0) <= 0) { meetsReq = false; break; }
+        }
+        if (showMet && !meetsReq) return;
+
+        cardsHtml += `
+            <div class="weapon-card ${!meetsReq ? 'locked' : ''} ${selectedWeapon && selectedWeapon.name === w.name ? 'selected' : ''} ${isChampion ? 'best-match' : ''}" 
+                 onclick='selectWeapon(${JSON.stringify(w)})'>
+                ${isChampion ? '<div class="best-tag">Top Tier for Build</div>' : ''}
+                <h3>${w.name}</h3>
+                <p style="font-size: 0.8rem; margin: 5px 0;">Scaling: ${scalingText.join(', ')}</p>
+                <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
+                <div class="dmg-value">${currentDmg} DMG</div>
+                ${!meetsReq ? '<div style="color: #8b0000; font-size: 0.7rem; font-weight: bold;">⚠️ Missing Stats</div>' : ''}
+            </div>`;
+    });
+
+    
+    grid.innerHTML = cardsHtml;
+}
+
+
+function selectWeapon(w) {
+    selectedWeapon = w;
+    updateUI();
+}
+
+function selectEnchant(e) {
+    selectedEnchant = e;
+    updateUI();
+}
+// --- 5. UI UTILITIES ---
+function changeTheme(themeName) {
+    // List of all possible theme classes to clean up
+    const themes = [
+        'theme-flame', 'theme-frost', 'theme-gale', 
+        'theme-thunder', 'theme-shadow', 'theme-iron', 
+        'theme-blood', 'theme-earth'
+    ];
+    
+    // Remove any existing theme class
+    document.body.classList.remove(...themes);
+    
+    // Add the new one if it's not default
+    if (themeName !== 'default') {
+        document.body.classList.add(themeName);
+    }
+    
+    localStorage.setItem('user-theme', themeName);
+}
+
+
+function loadSavedTheme() {
+    const saved = localStorage.getItem('user-theme');
+    if (saved) {
+        document.getElementById('theme-select').value = saved;
+        changeTheme(saved);
+    }
+}
+// Call loadSavedTheme() inside your init() function
+function switchTab(t) { 
+    currentTab = t; 
+    
+    ['talents','mantras','calc','guide', 'weapons'].forEach(id => { 
+        let el = document.getElementById('tab-'+id); 
+        if(el) el.classList.toggle('active', id===t); 
+    }); 
+    
+    let searchBar = document.getElementById('search-bar'); 
+    if(searchBar) searchBar.style.display = (t==='calc' || t==='guide' || t==='weapons') ? 'none' : 'block'; 
+
+    // IMPORTANT: Clear the container when switching tabs so the layout can re-render
+    document.getElementById('item-container').innerHTML = "";
+    
+    updateUI(); 
+}
+function toggleBuff(id) { activeBuffs.has(id) ? activeBuffs.delete(id) : activeBuffs.add(id); renderCalculator(); }
+function toggleCategory(cat) { collapsedCats.has(cat) ? collapsedCats.delete(cat) : collapsedCats.add(cat); renderItems(); }
+function toggleGif(id, e) { e.stopPropagation(); const el = document.getElementById('gif-'+id); if(el) el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
+function toggleSidebar(s) { document.body.classList.toggle('sidebar-open-'+s); }
+function closeSidebars() { document.body.classList.remove('sidebar-open-left', 'sidebar-open-right'); }
+function clearBuild() { if(confirm("Clear build?")) window.location.href = window.location.pathname; }
+
+async function saveBuild() {
+    const btn = document.querySelector('.action-btn[onclick="saveBuild()"]');
+    btn.innerText = "GENERATING...";
+    
+    const traitsPart = Object.values(userTraits).join('.');
+    const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
+    const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
+    const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
+    
+    
+    const wIdx = selectedWeapon ? weaponMap.indexOf(selectedWeapon.name).toString(36) : "x";
+    const eIdx = selectedEnchant ? enchantMap.indexOf(selectedEnchant).toString(36) : "x";
+    const bStr = Array.from(activeBuffs).join('.');
+
+    const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath}_${wIdx}_${eIdx}_${bStr}`;
+
+    try {
+        const response = await fetch('https://api.jsonbin.io/v3/b', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_KEY,
+                'X-Bin-Private': false
+            },
+            body: JSON.stringify({ build: fullData })
+        });
+        const result = await response.json();
+        const shortId = result.metadata.id; 
+        const url = window.location.origin + window.location.pathname + '?id=' + shortId;
+        navigator.clipboard.writeText(url).then(() => {
+            alert("Short Build Link Copied!");
+            btn.innerText = "SHARE BUILD LINK";
+        });
+    } catch (e) {
+        const url = window.location.origin + window.location.pathname + '?b=' + fullData;
+        navigator.clipboard.writeText(url);
+        btn.innerText = "SHARE BUILD LINK";
+    }
+}
+window.onload = init;
+</script>
+</body>
+</html>
