@@ -1937,7 +1937,7 @@ async function saveBuild() {
 
 navigator.clipboard.writeText(url).then(() => {
     alert("Build Link Copied!");
-    btn.innerText = "SHARE BUILD LINK (can embed on discord btw twin)";
+    btn.innerText = "SHARE BUILD LINK";
 });
     } catch (e) {
         const url = window.location.origin + window.location.pathname + '?b=' + fullData;
