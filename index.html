@@ -1933,10 +1933,9 @@ async function saveBuild() {
         });
         const result = await response.json();
         const shortId = result.metadata.id; 
-        const url = window.location.origin + '/embed/' + shortId;
-
+        const url = `https://faithandpray.github.io/deepwoken-modded-builder-tester/?id=${shortId}`;
 navigator.clipboard.writeText(url).then(() => {
-    alert("Build Link Copied!");
+    alert("Link Copied! (it can embed btw)");
     btn.innerText = "SHARE BUILD LINK";
 });
     } catch (e) {
